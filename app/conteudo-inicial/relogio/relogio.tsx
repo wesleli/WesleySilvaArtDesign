@@ -1,15 +1,22 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import ReactDOMServer from 'react-dom/server';
+
+interface Frase {
+  text: string;
+  color: string;
+  textAlign?: 'left' | 'center' | 'right' | 'justify';
+}
+
 
 export default function Relogio() {
+
 
     const [data, setData] = useState(new Date());
     const [backgroundImage, setBackgroundImage] = useState('');
     const [screenSize, setScreenSize] = useState('');
-    const [fraseMotivacional, setFraseMotivacional] = useState('');
-    const [selectedFrase, setSelectedFrase] = useState<{ period: string; frase: React.JSX.Element; startHour: number; endHour: number } | null>(null);
+    const [frases, setFrases] = useState<Frase[]>([]);
+
 
     useEffect(() => {
       const updateBackgroundImage = () => {
@@ -17,18 +24,6 @@ export default function Relogio() {
         const screenWidth = window.innerWidth;
 
         setScreenSize(screenWidth < 820 ? '02' : '01');
-
-        const fraseHour = [
-          { period: '01', frase: (<><p>“Sou onde não penso, penso onde não sou.”<br />Lacan, J</p></>), startHour: 6, endHour: 17 },
-          { period: '02', frase: (<><p><style jsx>{` p {color: #d9e1f9;}`}</style>Vá para casa</p><p><style jsx>{` p {color: #d9e1f9;}`}</style>Tome um chá</p></>), startHour: 18, endHour: 23 },
-          { period: '03', frase: (<><p><style jsx>{` p {color: #d9e1f9;}`}</style>...</p></>), startHour: 0, endHour: 5 },
-        ];
-
-        const firstSelectedFrase = fraseHour.find(
-          frases => currentHour >= frases.startHour && currentHour <= frases.endHour
-        );
-
-        setSelectedFrase(firstSelectedFrase || null);
 
         const images = [
           { period: 'morning', url: `/imagens/relogio-dia-${screenSize}.png`, startHour: 6, endHour: 17 },
@@ -57,16 +52,31 @@ export default function Relogio() {
       };
     }, [data, screenSize]);
 
-    useEffect(() => {
       // Atualize fraseMotivacional aqui, fora do primeiro useEffect
-      if (selectedFrase) {
-        const fraseStringArray = React.Children.toArray(selectedFrase.frase).map(child =>
-          typeof child === 'string' ? child : ''
-        );
-        setFraseMotivacional(fraseStringArray.join(''));
-      }
-    }, [selectedFrase]);
+      useEffect(() => {
+        const currentHour = new Date().getHours();
+    
+        if (currentHour >= 6 && currentHour <= 17) {
+          setFrases([
+            { text: '“Sou onde não penso, penso onde não sou."', color: '#1a2058', textAlign: 'left' },
+            { text: 'Lacan, J.', color: '#1a2058', textAlign: 'right' },
+          ]);
+        } else if (currentHour >= 18 && currentHour <= 23) {
+          setFrases([
+            { text: 'Vá para casa.', color: '#cedff2', textAlign: 'center' },
+            { text: 'Tome um chá.', color: '#cedff2', textAlign: 'center' },
+          ]);
+        } else {
+          setFrases([
+            { text: '...', color: '#cedff2', textAlign: 'center' },
+          ]);
+        }
 
+      const intervalId = setInterval(() => {
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
     useEffect(() => {
       const tiktok = document.querySelector('.tiktok') as HTMLElement | null;;
@@ -107,10 +117,13 @@ export default function Relogio() {
                             <Image className='ponteiro' src={'/imagens/ponteiro.png'} width={310} height={360} alt='tiktok'></Image>
                         </div>
                       </div>
-
                       <div className='frasemotivacional'>
-                              {fraseMotivacional}
-                      </div>
+                              {frases.map((frase, index) => (
+                            <p key={index} style={{ color: frase.color, textAlign: frase.textAlign }}>
+                            {frase.text}
+                              </p>
+                                 ))}
+                       </div>
                       <div className="button-topo">
                         <a href="#conteudo-01"><Image src="/imagens/icon_topo.png" width={75}
                             height={65}
