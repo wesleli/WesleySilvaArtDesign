@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ReactDOMServer from 'react-dom/server';
 
 export default function Relogio() {
 
@@ -8,8 +9,7 @@ export default function Relogio() {
     const [backgroundImage, setBackgroundImage] = useState('');
     const [screenSize, setScreenSize] = useState('');
     const [fraseMotivacional, setFraseMotivacional] = useState('');
-    const [selectedFrase, setSelectedFrase] = useState(null);
-
+    const [selectedFrase, setSelectedFrase] = useState<{ period: string; frase: React.JSX.Element; startHour: number; endHour: number } | null>(null);
 
     useEffect(() => {
       const updateBackgroundImage = () => {
@@ -24,9 +24,11 @@ export default function Relogio() {
           { period: '03', frase: (<><p><style jsx>{` p {color: #d9e1f9;}`}</style>...</p></>), startHour: 0, endHour: 5 },
         ];
 
-        const firstSelectedFrase = fraseHour.find(frases => currentHour >= frases.startHour && currentHour <= frases.endHour);
+        const firstSelectedFrase = fraseHour.find(
+          frases => currentHour >= frases.startHour && currentHour <= frases.endHour
+        );
 
-        setSelectedFrase(firstSelectedFrase || null)
+        setSelectedFrase(firstSelectedFrase || null);
 
         const images = [
           { period: 'morning', url: `/imagens/relogio-dia-${screenSize}.png`, startHour: 6, endHour: 17 },
@@ -58,18 +60,27 @@ export default function Relogio() {
     useEffect(() => {
       // Atualize fraseMotivacional aqui, fora do primeiro useEffect
       if (selectedFrase) {
-        setFraseMotivacional(selectedFrase.frase);
+        const fraseStringArray = React.Children.toArray(selectedFrase.frase).map(child =>
+          typeof child === 'string' ? child : ''
+        );
+        setFraseMotivacional(fraseStringArray.join(''));
       }
     }, [selectedFrase]);
 
 
     useEffect(() => {
-      const tiktok = document.querySelector('.tiktok');
-      const makeClock = setInterval(() => {
-        tiktok.style.animationPlayState = tiktok.style.animationPlayState === 'running' ? 'paused' : 'running';
-      }, 1000);
+      const tiktok = document.querySelector('.tiktok') as HTMLElement | null;;
 
-      return () => clearInterval(makeClock);
+      if (tiktok) {
+        const makeClock = setInterval(() => {
+          tiktok.style.animationPlayState = tiktok.style.animationPlayState === 'running' ? 'paused' : 'running';
+        }, 1000);
+    
+        return () => clearInterval(makeClock);
+      }
+    
+      return undefined;
+
     }, []);
 
     useEffect(() => {
