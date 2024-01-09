@@ -9,7 +9,7 @@ import Relogio from "./conteudo-inicial/relogio/relogio"
 export default function Page() {
 
 
-    return <div>
+    return <div className="h-full w-full">
                 <Inicio></Inicio>
                 <Design></Design>
                 <Arte></Arte>

@@ -17,7 +17,7 @@ export default function RootLayout({
     children: React.ReactNode
   }) {
     return (
-      <html lang="en" className='scroll-smooth'>
+      <html lang="pt" className='scroll-smooth'>
         <head>
           
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -27,9 +27,8 @@ export default function RootLayout({
           <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Rubik+Broken+Fax&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet"></link>
-
         </head>
-        <body>{children}</body>
+        <body className="relative bg-white h-screen w-full">{children}</body>
       </html>
     )
   }

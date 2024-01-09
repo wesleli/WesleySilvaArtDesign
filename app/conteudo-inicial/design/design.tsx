@@ -8,7 +8,7 @@ export default function Design () {
                             alt="ir para cima">
                                 </Image></a></div>
                     <div className="titulosection"><h1>DESIGN</h1></div>
-                    <div className="linkportfolio"><a href="/"><button
+                    <div className="linkportfolio"><a href="/design"><button
                     >ACESSAR PORTFÓLIO</button></a></div>
                     <div className="button-down">
                         <a href="#conteudo-03"><Image src="/imagens/icon_abaixo.png" width={75}

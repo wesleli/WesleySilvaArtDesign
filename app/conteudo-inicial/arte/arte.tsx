@@ -9,7 +9,7 @@ export default function Arte () {
                             alt="ir para cima">
                                 </Image></a></div>
                     <div className="titulosection"><h1>ARTE</h1></div>
-                    <div className="linkportfolio"><a href="/"><button
+                    <div className="linkportfolio"><a href="/art"><button
                     >ACESSAR PORTFÓLIO</button></a></div>
                     <div className="button-down">
                         <a href="#conteudo-04"><Image src="/imagens/icon_abaixo.png" width={75}
