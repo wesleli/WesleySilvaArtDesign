@@ -23,7 +23,7 @@ export default function Inicio() {
                             width={50}
                             height={50}
                             alt="Instagram"/></a></li>
-                            <li><a href="https://www.linkedin.com/in/wesley-da-silva-4a4287147/"><Image 
+                            <li><a href="https://www.linkedin.com/in/wesleysilvaartdesign/"><Image 
                             src="/imagens/redes_LIN_icon_01.png"
                             width={50}
                             height={502}
