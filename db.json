@@ -1,0 +1,76 @@
+{
+   "products": [
+   {
+     "id": "01",
+     "nome": "Cartaz Oficinas Criativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "02",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "03",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "04",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "05",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "06",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "07",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "08",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   },
+   {
+     "id": "09",
+     "nome": "cartazoficinascriativas",
+     "ano": "2023",
+     "description": "Cartaz produzido para o projeto de extensão Oficinas Criativas destinado a estudos em arte-educação.",
+     "url": "oficinascriativascartaz",
+     "imagens": ["01", "02", "03"]
+   }
+ ]
+}

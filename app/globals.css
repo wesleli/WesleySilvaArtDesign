@@ -24,10 +24,11 @@ body {
   display: none;
 }
 
+
 #conteudo-01 {
   display: block;
   position: relative;
-  background-image: url("./componentes/imagens/conteudo-01.png");
+  background-image: url("./components/imagens/conteudo-01.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -39,7 +40,7 @@ body {
 #conteudo-02 {
   display: block;
   position: relative;
-  background-image: url("./componentes/imagens/conteudo-02.png");
+  background-image: url("./components/imagens/conteudo-02.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -50,7 +51,7 @@ body {
 #conteudo-03 {
   display: block;
   position: relative;
-  background-image: url("./componentes/imagens/conteudo-03.png");
+  background-image: url("./components/imagens/conteudo-03.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -128,6 +129,7 @@ body {
   padding-bottom: 25%;
   text-align: left;
 }
+
 
 .quadradoinicio p {
   margin-right: 20px;
@@ -236,6 +238,10 @@ padding: 10px;
   margin-right: 50px;
 }
 
+.active{
+  background-color: darkgrey;
+}
+
 .titulosection {
   margin-left: 100px;
   padding-top: 100px;
@@ -258,12 +264,10 @@ padding: 10px;
 
 }
 
-.linkportfolio a {
+
+.linkportfolio button {
   align-self: center;
   position: relative;
-}
-
-.linkportfolio a button {
   background-color: rgba(0, 0, 0, 0.80);
   width: 550px;
   height: 70px;
@@ -271,7 +275,7 @@ padding: 10px;
   font-size: 25px;
 }
 
-.linkportfolio a button:hover {
+.linkportfolio button:hover {
   background-color: rgba(116, 114, 12, 0.75);
   font-family: 'Rubik Glitch', sans-serif;
   font-size: 25px;
@@ -417,10 +421,16 @@ padding: 10px;
   margin-right: 40%;
 }
 
+#btncontent:hover div {
+  opacity: 100%;
+  background-color: rgba(36, 35, 35, 0.5);
+}
+
+
 @media (max-width: 600px)  {
   
   #conteudo-01 {
-    background-image: url("./componentes/imagens/background-01.png");
+    background-image: url("./components/imagens/background-01.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -429,11 +439,11 @@ padding: 10px;
   }
 
   #conteudo-02 {
-    background-image: url("./componentes/imagens/background-02.png");
+    background-image: url("./components/imagens/background-02.png");
   }
 
   #conteudo-03 {
-    background-image: url("./componentes/imagens/background-03.png");
+    background-image: url("./components/imagens/background-03.png");
   }
 
   .redessociais {

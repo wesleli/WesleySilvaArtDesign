@@ -1,15 +1,37 @@
-import { Links } from "../componentes/links"
-import Conteiner from '../componentes/conteiner';
+"use client";
+
+import { Links } from "../components/links"
+import Conteiner from '../components/conteiner';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function Page() {
+    const [selectedButton, setSelectedButton] = useState('primeiroBotao');
+    const [productId, setProductId] = useState('1');
 
-    return <div className="p-6 font-mono h-full items-center justify-center bg-white text-black">
-            <h1 className="ml-2 text-yellow-600">Design.</h1>
-                <div className="block justify-center w-full h-full mb-10">
-                    <Links/>
-                    <Conteiner/>
-                </div>
+
+    const id = "design";
+
+    return (
+        <div className="p-6 font-mono h-full items-center justify-center bg-white text-black">
+            <h1 id="identify" className="ml-2 text-yellow-600">Design.</h1>
+            <div className="block justify-center w-full h-full mb-10">
+                <Links
+                    parentId={id}
+                    selectedButton={selectedButton}
+                    productId={productId}
+                    setSelectedButton={setSelectedButton}
+                    setProductId={setProductId}
+                />
+                <Conteiner
+                    parentId={id}
+                    selectedButton={selectedButton}
+                    productId={productId}
+                    setSelectedButton={setSelectedButton}
+                    setProductId={setProductId}
+                 />
             </div>
-
-  }
+        </div>
+    );
+}

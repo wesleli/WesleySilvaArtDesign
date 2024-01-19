@@ -29,6 +29,7 @@ export default async function  Todos(){
                 {todos.map((todo) =>  (
                     <li key={todo.id}>{todo.title}</li>
                 ))}
+                
             </ul>
     </>
 }

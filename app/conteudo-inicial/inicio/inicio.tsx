@@ -33,7 +33,7 @@ export default function Inicio() {
                             width={50}
                             height={50}
                             alt="GIT"/></a></li>
-                            <li><a href="https://whatsa.me/5541996922729/?t=%22Ol%C3%A1!%20Eu%20acessei%20o%20seu%20n%C3%BAmero%20pelo%20site%20do%20seu%20portf%C3%B3lio.%20"><Image 
+                            <li><a href="https://wa.me/qr/B2XJ4SCQTXRZA1"><Image 
                             src="/imagens/redes_WA_icon_01.png"
                             width={50}
                             height={50}
