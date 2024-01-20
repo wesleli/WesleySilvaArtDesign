@@ -35,7 +35,6 @@ export default function Conteiner({
 }: ConteinerProps) {
   const parentName: string = parentId;
   const [data, setData] = useState<Data[]>([]);
-  const [isCarouselActive, setIsCarouselActive] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -72,14 +71,6 @@ export default function Conteiner({
     setProductId(dataId); 
   };
 
-
-  const onCarouselActivate = () => {
-    setIsCarouselActive(true);
-  };
-
-  const onCarouselDeactivate = () => {
-    setIsCarouselActive(false);
-  };
 
 
   return (
