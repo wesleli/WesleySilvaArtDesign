@@ -6,11 +6,10 @@ import { useRouter } from "next/navigation";
 
 
 type DialogProps = {
-  onClose: () => void;
   children: React.ReactNode;
 };
 
-export default function Dialog({ onClose, children}: DialogProps) {
+export default function Dialog({ children}: DialogProps) {
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const url: any = usePathname();
   const searchParams = useSearchParams();
@@ -29,7 +28,6 @@ export default function Dialog({ onClose, children}: DialogProps) {
 
   const closeDialog = () => {
     dialogRef.current?.close();
-    onClose();
 
     // Create a new instance of URLSearchParams with the updated parameters
     const updatedSearchParams = new URLSearchParams(searchParams.toString());

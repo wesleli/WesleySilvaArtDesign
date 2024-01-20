@@ -24,6 +24,47 @@ body {
   display: none;
 }
 
+.swiper-container {
+  width: 100%;
+  max-width: 1200px; /* Defina o valor máximo conforme necessário */
+  margin: 0 auto; /* Centraliza a div */
+}
+
+.widescreen-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Proporção widescreen 16:9 */
+}
+
+.widescreen-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Swiper specific styles */
+.swiper-slide {
+  width: 100%;
+  height: 100%;
+}
+
+.widescreen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#conteudo-01,
+#conteudo-02,
+#conteudo-03,
+#conteudo-04,
+#conteudo-05 {
+  width: 100%;
+  height: 100%;
+}
 
 #conteudo-01 {
   display: block;
@@ -32,8 +73,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height: 100vh;
   overflow-x: hidden;
 }
 
@@ -44,8 +83,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height: 100vh;
 }
 
 #conteudo-03 {
@@ -55,8 +92,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height: 100vh;
 }
 
 #conteudo-04 {
@@ -65,8 +100,6 @@ body {
   background-color: #040516;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100vw;
-  height: 100vh;
 }
 
 
@@ -75,8 +108,6 @@ body {
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100vw;
-  height: 100vh;
 }
 
 .redessociais {
@@ -261,7 +292,6 @@ padding: 10px;
   justify-content: center;
   width: 100%;
   height: 100%;
-
 }
 
 
@@ -508,26 +538,22 @@ padding: 10px;
   }
 
   .titulosection {
-    margin-left: 20px;
-    padding-top: 100px;
+    margin-left: 10px;
   }
   
   .titulosection h1 {
-    font-size: 40px;
-    font-family: 'Climate Crisis', sans-serif;
-    color: #d51f16;
-    text-shadow: 2px 2px black;
+    font-size: 30px;
   }
   
-  .linkportfolio a button {
-    width: 200px;
-    height: 50px;
-    margin-top: 200px;
-    font-size: 15px;
+  .linkportfolio button {
+    width: 150px;
+    height: 40px;
+    margin-top: 100px;
+    font-size: 12px;
   }
 
-  .linkportfolio a button:hover {
-    font-size: 15px;
+  .linkportfolio  button:hover {
+    font-size: 12px;
   }
 
   .redessociais2 {

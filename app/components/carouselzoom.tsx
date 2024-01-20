@@ -139,35 +139,34 @@ export default function CarouselZoom () {
   }
 
   return (
-    <div className='conteiner text-white'>
-      <ErrorBoundary>
-        <Swiper
-          className='h-full w-full'
-          loop={true}
-          navigation={true}
-          pagination={{ type: 'fraction' }}
-          modules={[Navigation, Pagination]}
-          controller={{ control: swiper }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-            {productData.imagens.map((image, index) => (
-              <SwiperSlide key={index}>
-                {typeof image === 'string' && (
-                  <CustomImage
-                    src={`/imagens/db/design/${productData.url}/${image}.png`}
-                    alt={productData.id}
-                    fill={true}
-                    // ou passar false conforme necessário
-                    onError={() => {
-                      console.error(`Erro ao carregar a imagem ${image}`);
-                    }}
-                  />
-                )}
-              </SwiperSlide>
-            ))}
-        </Swiper>
-      </ErrorBoundary>
-    </div>
+<div className='swiper-container text-white widescreen-container'>
+        <ErrorBoundary>
+          <div className="swiper-wrapper widescreen-inner">
+            <Swiper
+              style={{ width: '100%', height: '100%' }}
+              loop={true}
+              navigation={true}
+              pagination={{ type: 'fraction' }}
+              modules={[Navigation, Pagination]}
+              controller={{ control: swiper }}
+            >
+              {productData.imagens.map((image, index) => (
+                <SwiperSlide key={index}>
+                    {typeof image === 'string' && (
+                      <CustomImage
+                        src={`/imagens/db/design/${productData.url}/${image}.png`}
+                        alt={productData.id}
+                        fill={true}
+                        onError={() => {
+                          console.error(`Erro ao carregar a imagem ${image}`);
+                        }}
+                      />
+                    )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </ErrorBoundary>
+      </div>
   );
 }

@@ -45,16 +45,13 @@ export default function Conteiner({
         const result = await response.json() as { products: Data[] };
   
         if (typeof result === 'object' && Array.isArray(result.products)) {
-          console.log('Produtos recebidos:', result.products);
   
           // Aqui, usamos result.products em vez de result.product
           const filteredData = (result.products as Data[]).filter((product: Data) => {
             const match = product.categoria === parentId || (product.categoria === undefined && parentId === ''); // Add an additional check for undefined
-            console.log(`Comparing ${product.categoria} with ${parentId}: ${match}`);
             return match;
           });
   
-          console.log('Dados filtrados:', filteredData);
   
           setData(filteredData);
         } else {
@@ -75,10 +72,6 @@ export default function Conteiner({
     setProductId(dataId); 
   };
 
-  async function onClose() {
-    // Lógica ao fechar o modal
-    console.log("modal has closed");
-  }
 
   const onCarouselActivate = () => {
     setIsCarouselActive(true);
@@ -90,53 +83,52 @@ export default function Conteiner({
 
 
   return (
-    <div className="flex justify-between w-full pb-10">
-      <div className="flex-col relative items-start justify-start w-9/12 p-2 bg-slate-100 border-t-4 border-white">
-        <Dialog onClose={onClose}>
-          <div>
-            
-            <CarouselZoom />
-          </div>
-        </Dialog>
-            <div className="px-1">
-              <Carousel />
-            </div>
-        {data.length === 0 ? (
-          <ul className="flex items-center content-center justify-center grid-cols-4 w-full h-full">
-          <div className="flex items-center justify-center text-xl font-bold text-gray-500">
-            No works to show
-          </div>
-          </ul>
-        
-        ) : (
-          <ul className="grid relative items-center content-center justify-center grid-cols-4 w-full">
-            {data.map((dataItem) => (
-              <li key={dataItem.id} className="m-1">
-                <button
-                  onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
-                  id="btncontent"
-                  className={`flex relative w-full items-end justify-center hover:border-2 hover:border-zinc-700 ${
-                    selectedButton === 'segundoBotao' && productId === dataItem.id ? 'active' : ''
-                  }`}
-                >
-                  <Image
-                    src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
-                    alt={dataItem.nome}
-                    width={250}
-                    height={250}
-                  />
-                  <div className="absolute block justify-center w-full opacity-0 text-yellow-200">
-                    <p>{dataItem.nome}</p>
-                  </div>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div className="flex w-1/4 p-10 h-96 bg-slate-100 border-l-4 border-t-4 border-white mb-10">
-        <Detalhes />
-      </div>
+<div className="inline-flex md:flex-row justify-between w-full pb-10">
+
+<div className="flex-col relative items-start justify-start w-4/6 p-2 bg-gray-200 mt-2">
+  <Dialog >
+    <div>
+      <CarouselZoom />
     </div>
-  );
-}
+  </Dialog>
+  <div>
+    <Carousel />
+  </div>
+  {data.length === 0 ? (
+    <div className="flex items-center justify-center text-xl font-bold text-gray-500">
+      No works to show
+    </div>
+  ) : (
+    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {data.map((dataItem) => (
+        <li key={dataItem.id} className="mb-4 md:mb-0 relative p-2">
+          <button
+            onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
+            id="btncontent"
+            className={`relative w-full aspect-w-1 aspect-h-1 hover:border-2 hover:border-slate-500 ${selectedButton === 'segundoBotao' && productId === dataItem.id ? 'active' : ''}`}
+          >
+            <div className="aspect-w-1 aspect-h-1">
+              <Image
+                src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
+                alt={dataItem.nome}
+                width={500}
+                height={500}
+                objectFit="cover"
+              />
+            </div>
+            <div className="absolute inset-0 flex flex-col justify-end p-2 bg-black bg-opacity-40 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+              <p className="text-sm font-semibold">{dataItem.nome}</p>
+            </div>
+          </button>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
+<div className="flex w-2/6 bg-gray-200 ml-2 mt-2">
+  <Detalhes />
+</div>
+
+</div>
+  )}

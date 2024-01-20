@@ -52,21 +52,21 @@ const Detalhesdb = () => {
   }
 
   return (
-    <div className='detalhesdb block font-mono text-sm'>
-              <div style={{ display: 'flex'}}>
-            <h1 className='font-semibold'>{productData.nome}</h1>
+    <div className='ml-2 font-mono text-base md:text-xs'>
+          <div className='flex flex-col mb-2'>
+            <h1 className='font-semibold text-lg '>{productData.nome}</h1>
           </div>
-          <div style={{ display: 'flex'}}>
-            <h1 className='font-semibold mr-2'>ID: </h1><p>{productData.id}</p>
+          <div className='flex flex-col mb-2'>
+            <h1 className='font-semibold mr-2 text-sm'>ID: </h1><p>{productData.id}</p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className='flex flex-col mb-2 text-sm'>
             <p>tags</p>
           </div>
-          <div style={{ display: 'flex'}}>
-            <h1 className='font-semibold mr-2'>Ano: </h1><p>{productData.ano}</p>
+          <div className='flex flex-col mb-2'>
+            <h1 className='font-semibold mr-2 text-sm'>Ano: </h1><p>{productData.ano}</p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h1 className='font-semibold mr-2'>Descrição: </h1><p>{productData.description}</p>
+          <div className='flex flex-col mb-2'>
+            <h1 className='font-semibold mr-2 text-sm'>Descrição: </h1><p>{productData.description}</p>
           </div>
     </div>
   );

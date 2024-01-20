@@ -1,5 +1,6 @@
-
+import '/app/normalize.css';
 import '@/app/globals.css';
+
 
 import { Metadata } from 'next'
  
@@ -28,7 +29,7 @@ export default function RootLayout({
           <link href="https://fonts.googleapis.com/css2?family=Rubik+Broken+Fax&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet"></link>
         </head>
-        <body className="relative bg-white h-screen w-full">{children}</body>
+        <body className="relative bg-gray-100 h-screen w-full">{children}</body>
       </html>
     )
   }

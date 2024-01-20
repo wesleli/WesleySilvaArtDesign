@@ -21,8 +21,8 @@ type CustomImageProps = Omit<ImageLoader, 'src'> & {
 const CustomImage: React.FC<CustomImageProps> = ({ onError, fill, src, alt }) => {
   return (
     <Image
+      fill
       src={src}
-      fill={fill}
       alt={alt}
       onError={(e) => {
         // Verifica se o erro é 404 (Not Found)
@@ -109,6 +109,9 @@ export default function Carousel() {
   const [productData, setProductData] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [swiperWidth, setSwiperWidth] = useState(100);
+
+
 
   const handleZoomButtonClick = () => {
     // Get the current query parameters
@@ -123,6 +126,8 @@ export default function Carousel() {
     // Replace the current URL with the updated one
     router.replace(updatedUrl);
   };
+
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -170,41 +175,43 @@ export default function Carousel() {
     );
   }
 
-  return (
-    <div className='conteiner text-white'>
-      <ErrorBoundary>
-        <Swiper
-          className='h-full w-full'
-          loop={true}
-          navigation={true}
-          pagination={{ type: 'fraction' }}
-          modules={[Navigation, Pagination]}
-          controller={{ control: swiper }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-            {productData.imagens.map((image, index) => (
-              <SwiperSlide key={index}>
-               <button onClick={handleZoomButtonClick} className="absolute z-10 justify-self-end top-0 right-0 m-3">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
-              </svg>
-              </button>
-                {typeof image === 'string' && (
-                  <CustomImage
-                    src={`/imagens/db/design/${productData.url}/${image}.png`}
-                    alt={productData.id}
-                    fill={true}
-                    // ou passar false conforme necessário
-                    onError={() => {
-                      console.error(`Erro ao carregar a imagem ${image}`);
-                    }}
-                  />
-                )}
-              </SwiperSlide>
-            ))}
-        </Swiper>
-      </ErrorBoundary>
-    </div>
-  );
-}
+    return (
+      <div className='swiper-container text-white px-2 widescreen-container'>
+        <ErrorBoundary>
+          <div className="swiper-wrapper widescreen-inner">
+            <Swiper
+              style={{ width: '100%', height: '100%' }}
+              loop={true}
+              navigation={true}
+              pagination={{ type: 'fraction' }}
+              modules={[Navigation, Pagination]}
+              controller={{ control: swiper }}
+          
+            >
+              {productData.imagens.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div className="swiper-slide-content">
+                    <button onClick={handleZoomButtonClick} className="absolute z-10 top-0 right-0 m-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                    </svg>
+                    </button>
+                    {typeof image === 'string' && (
+                      <CustomImage
+                        src={`/imagens/db/design/${productData.url}/${image}.png`}
+                        alt={productData.id}
+                        fill={true}
+                        onError={() => {
+                          console.error(`Erro ao carregar a imagem ${image}`);
+                        }}
+                      />
+                    )}
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </ErrorBoundary>
+      </div>
+    ); }
+

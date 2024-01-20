@@ -56,13 +56,13 @@ export const Links: React.FC<LinksProps> = ({
   }, [pathname, setProductId, setSelectedButton, router]);
 
   return (
-    <nav className='flex items-center justify-between text-black bg-slate-100 h-18 w-full'>
+    <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>
       <ul className='inline-flex items-center justify-center m-5'>
         <li>
           <button
             onClick={() => handleButtonClick('primeiroBotao', `/${parentName}`)}
             type='button'
-            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-2 ${selectedButton === 'primeiroBotao' ? 'active' : ''}`}
+            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-2 sm:m-0  ${selectedButton === 'primeiroBotao' ? 'active' : ''}`}
           >
             <Image src={IconTela01} alt="alt" width={50} height={50} />
           </button>
@@ -71,15 +71,15 @@ export const Links: React.FC<LinksProps> = ({
           <button
             onClick={() => handleButtonClick('segundoBotao', `/${parentName}?productId=${productId}`)}
             type='button'
-            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-2 ${selectedButton === 'segundoBotao' ? 'active' : ''}`}
+            className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-2  ${selectedButton === 'segundoBotao' ? 'active' : ''}`}
           >
             <Image src={IconTela02} alt="alt" width={50} height={50} />
           </button>
         </li>
       </ul>
-      <ul className='w-1/4 inline-flex items-center justify-center'>
-        <li className={pathname === '/' ? 'active' : ''}>
-          <Link href="/" className='text-xs hover:text-yellow-600'>
+      <ul className='w-1/4 mr-5 inline-flex items-center justify-center sm:flex-row'>
+        <li className={`sm:ml-2 flex content-center justify-items-center items-center justify-center mb-5 ${pathname === '/' ? 'active' : ''}`}>
+          <Link href="/" className='text-xs pt-5 sm:pl-3  hover:text-yellow-600'>
             
               https://wesleysilvaart<br/>design.vercel.app/
             
