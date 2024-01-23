@@ -100,7 +100,7 @@ export default function Conteiner({
           >
             <div className="aspect-w-1 aspect-h-1">
               <Image
-                src={`/imagens/db/${parentName}/${dataItem.url}/capa.jpg`}
+                src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
                 alt={dataItem.nome}
                 width={500}
                 height={500}
