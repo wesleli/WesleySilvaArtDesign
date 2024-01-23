@@ -198,7 +198,7 @@ export default function Carousel() {
                     </button>
                     {typeof image === 'string' && (
                       <CustomImage
-                        src={`/imagens/db/design/${productData.url}/${image}.png`}
+                        src={`/imagens/db/design/${productData.url}/${image}.jpg`}
                         alt={productData.id}
                         fill={true}
                         onError={() => {
