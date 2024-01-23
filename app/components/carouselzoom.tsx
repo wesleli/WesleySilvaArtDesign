@@ -21,6 +21,7 @@ const CustomImage: React.FC<CustomImageProps> = ({ onError, fill, src, alt}) => 
 
   return (
     <Image
+      quality={100}
       src={src}
       fill={fill}
       alt={alt}
