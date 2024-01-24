@@ -15,7 +15,7 @@ export default function Page() {
 
     return (
         <div className="p-6 font-mono h-full items-center justify-center text-black">
-            <h1 id="identify" className="ml-2 text-yellow-600">Design.</h1>
+            <h1 id="identify" className="text-sm text-yellow-600">Design.</h1>
             <div className="block justify-center w-full h-full mb-10">
                 <Links
                     parentId={id}

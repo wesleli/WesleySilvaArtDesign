@@ -34,10 +34,12 @@ const CustomImage: React.FC<CustomImageProps> = ({ onError, fill, src, alt}) => 
 };
 
 
-type Product = {
+type Work = {
   id: string;
+  categoria: string,
   nome: string;
   ano: string;
+  tag: string,
   description: string;
   url: string;
   imagens: string[];
@@ -89,7 +91,7 @@ export default function CarouselZoom () {
   const searchParams = useSearchParams();
   const productId = searchParams.get('productId') || '';
   const swiper = useSwiper();
-  const [productData, setProductData] = useState<Product | null>(null);
+  const [productData, setProductData] = useState<Work | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -101,8 +103,8 @@ export default function CarouselZoom () {
         const response = await fetch(`/api/fetch_api?id=${productId}`);
         const result = await response.json();
 
-        if (typeof result === 'object' && result.product) {
-          setProductData(result.product);
+        if (typeof result === 'object' && result.work) {
+          setProductData(result.work);
           setError(false);
         } else {
           console.error("Os dados recebidos não contêm um objeto 'product':", result);
@@ -155,7 +157,7 @@ export default function CarouselZoom () {
                 <SwiperSlide key={index}>
                     {typeof image === 'string' && (
                       <CustomImage
-                        src={`/imagens/db/design/${productData.url}/${image}.png`}
+                        src={`/imagens/db/${productData.categoria}/${productData.url}/${image}.png`}
                         alt={productData.id}
                         fill={true}
                         onError={() => {

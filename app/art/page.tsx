@@ -14,7 +14,7 @@ export default function Page() {
     const id = "arte"
 
     return <div className="absolute p-6 font-mono bg-white bg-scroll h-full w-full text-black">
-            <h1 className="ml-2 text-yellow-600">Arte.</h1>
+            <h1 className="text-sm text-yellow-600">Arte.</h1>
                 <div className="relative w-90 h-full">
                 <Links
                     parentId={id}

@@ -12,7 +12,8 @@ import { useRouter } from "next/navigation";
 type Data = {
   id: string;
   nome: string;
-  ano: string;
+  data: string;
+  tag: string;
   url: string;
   description: string;
   categoria: string; 
@@ -34,6 +35,8 @@ export default function Conteiner({
   setProductId,
 }: ConteinerProps) {
   const parentName: string = parentId;
+  const parentNameStr: string = parentName || 'defaultValue';
+  console.log('parentName in CarouselZoom:', parentName);
   const [data, setData] = useState<Data[]>([]);
   const router = useRouter();
 
@@ -41,13 +44,13 @@ export default function Conteiner({
     async function fetchData() {
       try {
         const response = await fetch('/api/fetch_api');
-        const result = await response.json() as { products: Data[] };
+        const result = await response.json() as { works: Data[] };
   
-        if (typeof result === 'object' && Array.isArray(result.products)) {
+        if (typeof result === 'object' && Array.isArray(result.works)) {
   
           // Aqui, usamos result.products em vez de result.product
-          const filteredData = (result.products as Data[]).filter((product: Data) => {
-            const match = product.categoria === parentId || (product.categoria === undefined && parentId === ''); // Add an additional check for undefined
+          const filteredData = (result.works as Data[]).filter((works: Data) => {
+            const match = works.categoria === parentId || (works.categoria === undefined && parentId === ''); // Add an additional check for undefined
             return match;
           });
   
@@ -71,7 +74,8 @@ export default function Conteiner({
     setProductId(dataId); 
   };
 
-
+  console.log('parentName before Carousel:', parentName);
+  console.log('parentName before CarouselZoom:', parentName);
 
   return (
 <div className="inline-flex md:flex-row justify-between w-full pb-10">
@@ -79,20 +83,21 @@ export default function Conteiner({
 <div className="flex-col relative items-start justify-start w-4/6 p-2 bg-gray-200 mt-2">
   <Dialog >
     <div>
+      
       <CarouselZoom />
     </div>
   </Dialog>
   <div>
-    <Carousel />
+  <Carousel />
   </div>
   {data.length === 0 ? (
     <div className="flex items-center justify-center text-xl font-bold text-gray-500">
       No works to show
     </div>
   ) : (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
       {data.map((dataItem) => (
-        <li key={dataItem.id} className="mb-4 md:mb-0 relative p-2">
+        <li key={dataItem.id} className="relative">
           <button
             onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
             id="btncontent"
@@ -107,7 +112,7 @@ export default function Conteiner({
                 objectFit="cover"
               />
             </div>
-            <div className="absolute inset-0 flex flex-col justify-end p-2 bg-black bg-opacity-40 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 flex flex-col justify-end bg-black bg-opacity-40 text-white opacity-0 group-hover:opacity-100 transition-opacity">
               <p className="text-sm font-semibold">{dataItem.nome}</p>
             </div>
           </button>
@@ -118,7 +123,7 @@ export default function Conteiner({
 </div>
 
 <div className="flex w-2/6 bg-gray-200 ml-2 mt-2">
-  <Detalhes />
+  <Detalhes/>
 </div>
 
 </div>
