@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 type Work = {
     id: string;
-    tag: string[];
+    tags: string[];
     nome: string;
     data: string;
     description: string;
@@ -34,9 +34,9 @@ export async function GET(request: Request) {
         const result = await sql`SELECT * FROM works;`;
         const works: Work[] = result.rows.map((row) => ({
           id: row.id,
-          tag: row.tag,
+          tags: row.tag,
           nome: row.nome,
-          data: row.ano,
+          data: row.data,
           description: row.description,
           url: row.url,
           imagens: row.imagens,
@@ -51,9 +51,9 @@ export async function GET(request: Request) {
     const work: Work | null = result.rows.length > 0
       ? {
           id: result.rows[0].id,
-          tag: result.rows[0].id,
+          tags: result.rows[0].tag,
           nome: result.rows[0].nome,
-          data: result.rows[0].ano,
+          data: result.rows[0].data,
           description: result.rows[0].description,
           url: result.rows[0].url,
           imagens: result.rows[0].imagens,
