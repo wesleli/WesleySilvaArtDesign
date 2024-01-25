@@ -17,7 +17,6 @@ type CustomImageProps = Omit<ImageLoader, 'src'> & {
   fill?: boolean;
 };
 
-
 const CustomImage: React.FC<CustomImageProps> = ({ onError, fill, src, alt }) => {
   return (
     <Image
@@ -26,20 +25,15 @@ const CustomImage: React.FC<CustomImageProps> = ({ onError, fill, src, alt }) =>
       src={src}
       alt={alt}
       onError={(e) => {
-        // Verifica se o erro é 404 (Not Found)
         if (e instanceof ErrorEvent && e.target instanceof HTMLImageElement) {
           const img = e.target;
           if (img.naturalWidth === 0 && img.naturalHeight === 0) {
-            // Lida com o erro 404 aqui (por exemplo, exibindo uma imagem de substituição)
-            console.error(`Erro 404 ao carregar a imagem: ${src}`);
-            // Exibir uma imagem de substituição ou fazer algo apropriado
+            console.error(`Error 404 while loading the image: ${src}`);
             return;
           }
         }
 
-        // Chama a função de erro fornecida
         onError(e);
-        // Remove o manipulador de erro para evitar loops infinitos
         if (e.target) {
           (e.target as HTMLImageElement).onerror = null;
         }
@@ -104,7 +98,7 @@ const ErrorFallback = () => {
 
 
 
-export default function Carousel() {
+export default function Carousel(): JSX.Element | null {
   const router = useRouter();
   const searchParams = useSearchParams();
   const productId = searchParams.get('productId') || '';
@@ -115,20 +109,11 @@ export default function Carousel() {
 
 
   const handleZoomButtonClick = () => {
-    // Get the current query parameters
     const queryParams = new URLSearchParams(window.location.search);
-  
-    // Add the new parameter 'zoom' with a value (e.g., '2x') to the query
     queryParams.set('zoom', 'true');
-  
-    // Build the new URL with updated query parameters
     const updatedUrl: any = `${window.location.pathname}?${queryParams.toString()}`;
-  
-    // Replace the current URL with the updated one
     router.replace(updatedUrl);
   };
-
-  
 
   useEffect(() => {
     async function fetchData() {
@@ -136,17 +121,16 @@ export default function Carousel() {
         setLoading(true);
         const response = await fetch(`/api/fetch_api?id=${productId}`);
         const result = await response.json();
-        const productUrl = result.work?.url;
 
         if (typeof result === 'object' && result.work) {
           setProductData(result.work);
           setError(false);
         } else {
-          console.error("Os dados recebidos não contêm um objeto 'product':", result);
+          console.error("Received data does not contain a 'work' object:", result);
           setError(true);
         }
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Error fetching data:", error);
         setError(true);
       } finally {
         setLoading(false);

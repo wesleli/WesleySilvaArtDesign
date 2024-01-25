@@ -35,35 +35,36 @@ export default function Conteiner({
   setProductId,
 }: ConteinerProps) {
   const parentName: string = parentId;
-  const parentNameStr: string = parentName || 'defaultValue';
-  console.log('parentName in CarouselZoom:', parentName);
+  const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Data[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true); // Set loading to true when starting the fetch
       try {
         const response = await fetch('/api/fetch_api');
         const result = await response.json() as { works: Data[] };
-  
+
         if (typeof result === 'object' && Array.isArray(result.works)) {
-  
-          // Aqui, usamos result.products em vez de result.product
           const filteredData = (result.works as Data[]).filter((works: Data) => {
-            const match = works.categoria === parentId || (works.categoria === undefined && parentId === ''); // Add an additional check for undefined
+            const match =
+              works.categoria === parentId ||
+              (works.categoria === undefined && parentId === '');
             return match;
           });
-  
-  
+
           setData(filteredData);
         } else {
           console.error("Os dados recebidos não contêm uma matriz:", result);
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
       }
     }
-  
+
     fetchData();
   }, [parentId]);
   
@@ -74,8 +75,6 @@ export default function Conteiner({
     setProductId(dataId); 
   };
 
-  console.log('parentName before Carousel:', parentName);
-  console.log('parentName before CarouselZoom:', parentName);
 
   return (
 <div className="inline-flex md:flex-row justify-between w-full pb-10">
@@ -90,11 +89,15 @@ export default function Conteiner({
   <div>
   <Carousel />
   </div>
-  {data.length === 0 ? (
-    <div className="flex items-center justify-center text-xl font-bold text-gray-500">
-      No works to show
-    </div>
-  ) : (
+  {loading ? (
+          <div className="flex items-center justify-center text-xl font-bold text-gray-500">
+            Loading...
+          </div>
+        ) : data.length === 0 ? (
+          <div className="flex items-center justify-center text-xl font-bold text-gray-500">
+            No works to show
+          </div>
+        ) : (
     <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
       {data.map((dataItem) => (
         <li key={dataItem.id} className="relative">
