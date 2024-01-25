@@ -4,12 +4,6 @@ export default function Sobremim() {
 
 
     return <div id="conteudo-04">
-                    <div className="button-up">
-                        <a href="#conteudo-01"><Image src="/imagens/icon_acima.png" width={75}
-                            height={65}
-                            alt="ir para cima">
-                        </Image></a>
-                    </div>
                     <div className="redessociais2">
                         <ul>
                             <li><a href="https://www.behance.net/wesleydasilva15"> <Image 

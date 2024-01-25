@@ -63,11 +63,5 @@ export default function Inicio() {
                             alt="Foto Perfil"></Image>
                     </div>
                     </div>
-                    <div className="button-down">
-                        <a href="#conteudo-02"><Image src="/imagens/icon_abaixo.png" width={75}
-                            height={65}
-                            alt="Foto Perfil"></Image></a>
-
-                    </div>
             </section>
 }
