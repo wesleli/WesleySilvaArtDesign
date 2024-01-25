@@ -9,6 +9,8 @@ interface Frase {
 }
 
 
+
+
 export default function Relogio() {
 
 
@@ -16,6 +18,14 @@ export default function Relogio() {
     const [backgroundImage, setBackgroundImage] = useState('');
     const [screenSize, setScreenSize] = useState('');
     const [frases, setFrases] = useState<Frase[]>([]);
+
+    const handleButtonClick = () => { 
+      const element = document.getElementById('conteudo-01');
+
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+     };
 
 
     useEffect(() => {
@@ -125,9 +135,9 @@ export default function Relogio() {
                                  ))}
                        </div>
                       <div className="button-topo">
-                        <a href="#conteudo-01"><Image src="/imagens/icon_topo.png" width={75}
+                        <button type='button' onClick={handleButtonClick}><Image src="/imagens/icon_topo.png" width={75}
                             height={65}
-                            alt="Topo"></Image></a>
+                            alt="Topo"></Image></button>
 
                     </div>
     </section>

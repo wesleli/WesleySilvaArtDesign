@@ -3,11 +3,11 @@
 import { Links } from "../components/links"
 import Conteiner from '../components/conteiner';
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 
-export default function Page() {
-    const router = useRouter(); // Inicialize o router
+
+export default function Page() { 
+    
     const [selectedButton, setSelectedButton] = useState('primeiroBotao');
     const [productId, setProductId] = useState('1');
 

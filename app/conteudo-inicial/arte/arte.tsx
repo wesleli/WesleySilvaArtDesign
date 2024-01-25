@@ -10,7 +10,7 @@ export default function Arte () {
 
     return <section id="conteudo-03">
                     <div className="titulosection"><h1>ARTE</h1></div>
-                    <div className="linkportfolio"><button type="button" onClick={() => router.push('/art')}>
+                    <div className="linkportfolio"><button type="button" onClick={() => router.push('/arte')}>
                     ACESSAR PORTFÓLIO</button></div>
     </section>
 }

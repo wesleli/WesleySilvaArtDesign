@@ -54,48 +54,6 @@ type Work = {
   imagens: string[];
 };
 
-type ErrorBoundaryProps = {
-  children: ReactNode;
-};
-
-type ErrorBoundaryState = {
-  hasError: boolean;
-};
-
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  state: ErrorBoundaryState = {
-    hasError: false,
-  };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <ErrorFallback />;
-    }
-
-    return this.props.children;
-  }
-}
-
-const ErrorFallback = () => {
-  const router = useRouter();
-
-  return (
-    <div>
-      <h1>404 - Página não encontrada</h1>
-      <p>A página que você está procurando não existe.</p>
-      <button onClick={() => router.push('/')}>Ir para a página inicial</button>
-    </div>
-  );
-};
-
 
 
 export default function Carousel(): JSX.Element | null {
@@ -105,7 +63,6 @@ export default function Carousel(): JSX.Element | null {
   const swiper = useSwiper();
   const [productData, setProductData] = useState<Work | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
 
   const handleZoomButtonClick = () => {
@@ -124,14 +81,14 @@ export default function Carousel(): JSX.Element | null {
 
         if (typeof result === 'object' && result.work) {
           setProductData(result.work);
-          setError(false);
+
         } else {
           console.error("Received data does not contain a 'work' object:", result);
-          setError(true);
+
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setError(true);
+
       } finally {
         setLoading(false);
       }
@@ -152,18 +109,15 @@ export default function Carousel(): JSX.Element | null {
     return <div>Carregando...</div>;
   }
 
-  if (error || !productData) {
+  if (!productData) {
     return (
-      <ErrorBoundary>
-        <ErrorFallback />
-      </ErrorBoundary>
+      <div>não encontrado</div>
     );
   }
 
 
     return (
       <div className='swiper-container text-white px-2 widescreen-container'>
-        <ErrorBoundary>
           <div className="swiper-wrapper widescreen-inner">
             <Swiper
               style={{ width: '100%', height: '100%' }}
@@ -197,7 +151,6 @@ export default function Carousel(): JSX.Element | null {
               ))}
             </Swiper>
           </div>
-        </ErrorBoundary>
       </div>
     ); }
 

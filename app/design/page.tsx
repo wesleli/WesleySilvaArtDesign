@@ -3,7 +3,6 @@
 import { Links } from "../components/links"
 import Conteiner from '../components/conteiner';
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 
 export default function Page() {
