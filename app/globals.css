@@ -42,7 +42,6 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
 }
 
 /* Swiper specific styles */
@@ -51,9 +50,66 @@ body {
   height: 100%;
 }
 
-.widescreen-image {
+
+.swiper-button-next,
+.swiper-button-prev {
+    background-color: #50505081;
+    padding: 20px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    color: rgb(233, 234, 240)!important;
+}
+
+.mySwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.mySwiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.swiper-slide img {
+  display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: red;
+  z-index: 9999;
+}
+
+.redLight {
+  width: 50px; /* Largura do "risco" vermelho */
+  height: 100%; /* Altura do "risco" vermelho */
+  position: absolute; /* Posição absoluta em relação à barra de carregamento */
+  left: 0; /* Começa no início da barra de carregamento */
+  animation: moveLight 4s linear infinite; /* Aplica a animação */
+  box-shadow: 0px 0px 5px 3px rgba(255, 177, 177, 0.5); /* Adiciona um reflexo branco */
+  background: 
+    linear-gradient(to right, rgba(255, 0, 0, 0.897), rgba(255, 255, 254, 0.897)) left,
+    linear-gradient(to left, rgba(255, 0, 0, 0.897), rgba(255, 255, 254, 0.897)) right;
+  background-size: 50% 100%, 50% 100%;
+  background-repeat: no-repeat;
+}
+
+
+.widescreen-image {
+  width: 100%;
   object-fit: cover;
 }
 

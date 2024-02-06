@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Dialog from "./Dialog";
 import Carousel from "./carousel";
-import CarouselZoom from "./carouselzoom";
 import Detalhes from "./detalhes";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -80,13 +79,8 @@ export default function Conteiner({
 <div className="inline-flex md:flex-row justify-between w-full pb-10">
 
 <div className="flex-col relative items-start justify-start w-4/6 p-2 bg-gray-200 mt-2">
-  <Dialog >
-    <div>
-      
-      <CarouselZoom />
-    </div>
-  </Dialog>
-  <div>
+  <Dialog />
+  <div className="mx-5 mb-5">
   <Carousel />
   </div>
   {loading ? (
@@ -109,6 +103,7 @@ export default function Conteiner({
             <div className="aspect-w-1 aspect-h-1">
               <Image
                 src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
+                placeholder = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                 alt={dataItem.nome}
                 width={500}
                 height={500}
