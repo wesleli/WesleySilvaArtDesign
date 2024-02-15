@@ -104,9 +104,9 @@ export default function Conteiner({
       No works to show
     </div>
   ) : (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 m-0">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-1 m-0">
       {data.map((dataItem) => (
-        <div key={dataItem.id} className="grid gap-4 m-0">
+        <div key={dataItem.id} className="grid m-0">
           <button
             onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
             id="btncontent"
