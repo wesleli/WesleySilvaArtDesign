@@ -86,7 +86,7 @@ const Detalhesdb = () => {
         <div className='flex flex-col mb-2'>
           <h1 className='font-bold text-sm md:text-2xl'>{productData.nome}</h1>
         </div>
-        <div className='flex flex-wrap text-sm items-center'>
+        <div className='flex flex-wrap text-sm mb-2 items-center'>
         <Image src={'/imagens/backspace.svg'} 
         width={20}
         height={20}
@@ -94,7 +94,7 @@ const Detalhesdb = () => {
       className='mr-2'
      alt='ID'/><h1 className='font-semibold mr-2 text-xs md:text-sm'>ID: </h1><p>{productData.id}</p>
         </div>
-        <div className='flex flex-wrap text-xs md:text-sm items-center'>
+        <div className='flex flex-wrap text-xs mb-2 md:text-sm items-center'>
         {productData?.tag?.map((tag, index) => (
           <button
             key={index}
@@ -110,7 +110,7 @@ const Detalhesdb = () => {
           </button>
         ))}
         </div>
-        <div className='flex flex-wrap text-center text-sm items-center'>
+        <div className='flex flex-wrap mb-2 text-center text-sm items-center'>
         <Image src={'/imagens/annual.svg'} 
           width={20}
           height={20}
@@ -122,8 +122,8 @@ const Detalhesdb = () => {
         <p>{productData.data.getFullYear()}</p>
       )}
         </div>
-        <div className='flex flex-col text-xs md:text-sm font-mono'>
-          <h1 className='font-semibold mr-2 text-lg'>Descrição: </h1><p>{productData.description}</p>
+        <div className='flex flex-col text-xs mb-2 md:text-sm font-mono'>
+          <h1 className='font-semibold mr-2 text-base md:text-lg'>Descrição: </h1><p>{productData.description}</p>
         </div>
       </>
     ) : (
