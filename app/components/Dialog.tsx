@@ -38,18 +38,17 @@ export default function Dialog() {
   };
 
   return (
-    <dialog ref={dialogRef} className="fixed bg-transparent w-5/6 top-50 left-50 -translate-x-50 -translate-y-50 z-10 rounded-xl backdrop:bg-gray-800/80">
-      <div className='relative'>
-        <div>
-          <button className="absolute z-10 right-0 mr-5 mt-2 text-white rounded-lg" style={{backgroundColor: '#50505081'}} onClick={closeDialog}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-  <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-</svg>
-</button>
+    <dialog ref={dialogRef} className="fixed bg-transparent w-4/6 top-50 left-50 -translate-x-50 -translate-y-50 z-10 backdrop:bg-gray-800/80">
+      <div className='flex'>
+          <div>
+                <button className="absolute z-10 right-0 mr-5 mt-2 text-white rounded-lg" style={{backgroundColor: '#50505081'}} onClick={closeDialog}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                  <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                </svg>
+                </button>
         </div>
-        <div>
+        
           <Carousel/>
         </div>
-      </div>
     </dialog>
   );
 }

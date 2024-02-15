@@ -6,7 +6,7 @@ import Carousel from "./carousel";
 import Detalhes from "./detalhes";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { useSearchParams } from "next/navigation";
 
 type Data = {
   id: string;
@@ -37,21 +37,36 @@ export default function Conteiner({
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<Data[]>([]);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true); // Set loading to true when starting the fetch
+      setLoading(true);
       try {
         const response = await fetch('/api/fetch_api');
         const result = await response.json() as { works: Data[] };
 
         if (typeof result === 'object' && Array.isArray(result.works)) {
-          const filteredData = (result.works as Data[]).filter((works: Data) => {
-            const match =
-              works.categoria === parentId ||
-              (works.categoria === undefined && parentId === '');
-            return match;
-          });
+          let filteredData = result.works.filter(work => work.categoria === parentId);
+          const tag = searchParams.get('tag');
+
+          if (tag) {
+            // Filtrar os dados por tag, verificando se a tag da URL está presente no array de tags
+            filteredData = filteredData.filter(work => work.tag.includes(tag));
+          }
+          console.log(tag)
+          console.log("Dados após filtro por tag:", filteredData);
+
+          filteredData.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
+
+          if (productId) {
+            const index = filteredData.findIndex(item => item.id === productId);
+            if (index !== -1) {
+              const selectedItem = filteredData.splice(index, 1);
+              filteredData.unshift(selectedItem[0]);
+            }
+          }
 
           setData(filteredData);
         } else {
@@ -60,16 +75,15 @@ export default function Conteiner({
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       } finally {
-        setLoading(false); // Set loading to false regardless of success or error
+        setLoading(false);
       }
     }
 
     fetchData();
-  }, [parentId]);
-  
+  }, [parentId, productId, searchParams]);
 
   const handleButtonClick = (pathname: any, dataId: string) => {
-    router.push(pathname, undefined);
+    router.push(pathname);
     setSelectedButton('segundoBotao'); 
     setProductId(dataId); 
   };
@@ -80,30 +94,28 @@ export default function Conteiner({
 
 <div className="flex-col relative items-start justify-start w-4/6 p-2 bg-gray-200 mt-2">
   <Dialog />
-  <div className="mx-5 mb-5">
-  <Carousel />
-  </div>
+    <Carousel />
   {loading ? (
-          <div className="flex items-center justify-center text-xl font-bold text-gray-500">
-            Loading...
-          </div>
-        ) : data.length === 0 ? (
-          <div className="flex items-center justify-center text-xl font-bold text-gray-500">
-            No works to show
-          </div>
-        ) : (
-    <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+    <div className="flex items-center justify-center text-xl font-bold text-gray-500">
+      Loading...
+    </div>
+  ) : data.length === 0 ? (
+    <div className="flex items-center justify-center text-xl font-bold text-gray-500">
+      No works to show
+    </div>
+  ) : (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 m-0">
       {data.map((dataItem) => (
-        <li key={dataItem.id} className="relative">
+        <div key={dataItem.id} className="grid gap-4 m-0">
           <button
             onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
             id="btncontent"
-            className={`relative w-full aspect-w-1 aspect-h-1 hover:border-2 hover:border-slate-500 ${selectedButton === 'segundoBotao' && productId === dataItem.id ? 'active' : ''}`}
+            className={`relative w-full hover:border-2 hover:border-slate-500 ${selectedButton === 'segundoBotao' && productId === dataItem.id ? 'active' : ''}`}
           >
-            <div className="aspect-w-1 aspect-h-1">
+            <div>
               <Image
                 src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
-                placeholder = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+                placeholder="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                 alt={dataItem.nome}
                 width={500}
                 height={500}
@@ -114,9 +126,9 @@ export default function Conteiner({
               <p className="text-sm font-semibold">{dataItem.nome}</p>
             </div>
           </button>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   )}
 </div>
 

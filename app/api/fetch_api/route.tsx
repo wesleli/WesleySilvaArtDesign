@@ -2,6 +2,7 @@ import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 
 type Conteudo = {
+    id: string;
     tipo: string;
     caminho: string;
 };
@@ -15,7 +16,7 @@ type Work = {
     url: string;
     imagens: string[];
     categoria: string;
-    conteudos: Conteudo[] | null; // Alteração: permitindo que conteudo seja null
+    conteudos: Conteudo[]; // Alteração: permitindo que conteudo seja null
 };
 
 export async function GET(request: Request) {
@@ -43,7 +44,7 @@ export async function GET(request: Request) {
                 url: row.url,
                 imagens: row.imagens,
                 categoria: row.categoria,
-                conteudos: result.rows[0].conteudos_exists ? JSON.parse(result.rows[0].conteudos) : null  // Definindo conteudo como null se a coluna não existir
+                conteudos: row.conteudos  // Definindo conteudo como null se a coluna não existir
             }));
 
             return NextResponse.json({ works }, { status: 200 });
@@ -61,7 +62,7 @@ export async function GET(request: Request) {
             url: result.rows[0].url,
             imagens: result.rows[0].imagens,
             categoria: result.rows[0].categoria,
-            conteudos: result.rows[0].conteudos_exists ? JSON.parse(result.rows[0].conteudos) : null // Parse do JSON para objeto
+            conteudos: result.rows[0].conteudos // Parse do JSON para objeto
         }
         : null;
 

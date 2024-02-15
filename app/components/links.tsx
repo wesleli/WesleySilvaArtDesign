@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import IconTela01 from "./imagens/Telas_01.png";
 import IconTela02 from "./imagens/Telas_02.png";
@@ -26,34 +26,58 @@ export const Links: React.FC<LinksProps> = ({
   const router = useRouter();
   const parentName = parentId || '';
   const pathname = usePathname();
+  const searchParams = useSearchParams(); 
 
   const handleButtonClick = (buttonId: string, path: any) => {
-    if (buttonId === 'segundoBotao') {
-      const params = new URLSearchParams(window.location.search);
-      const productIdFromParams = params.get('productId');
-
-      if (productIdFromParams) {
-        setProductId(productIdFromParams);
-      } else {
-        setProductId('1');
-      }
-    } else {
-      setProductId('1');
-    }
 
     setSelectedButton(buttonId);
-    router.replace(path); // Removido o segundo parâmetro 'undefined'
+    router.replace(path);
   };
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const productIdFromParams = params.get('productId');
+useEffect(() => {
+  const productIdFromParams = searchParams.get('productId');
+
+  if (productIdFromParams) {
+    setProductId(productIdFromParams);
+    setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
+  } else {
+    // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
+    setSelectedButton('primeiroBotao');
+  }
+}, [searchParams, setProductId, setSelectedButton]);
+
+useEffect(() => {
+  const handleSearchParamsChange = () => {
+    const productIdFromParams = searchParams.get('productId');
 
     if (productIdFromParams) {
-      setProductId(productIdFromParams);
       setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
+    } else {
+      // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
+      setSelectedButton('primeiroBotao');
     }
-  }, [pathname, setProductId, setSelectedButton, router]);
+  };
+
+  // Adicionar um ouvinte para o evento de mudança nos parâmetros de busca
+  window.addEventListener('searchParamsChange', handleSearchParamsChange);
+
+  // Remover o ouvinte ao desmontar o componente
+  return () => {
+    window.removeEventListener('searchParamsChange', handleSearchParamsChange);
+  };
+}, [searchParams, setSelectedButton]);
+
+// Verificar e atualizar o estado do botão ao renderizar o componente
+useEffect(() => {
+  const productIdFromParams = searchParams.get('productId');
+
+  if (productIdFromParams) {
+    setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
+  } else {
+    // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
+    setSelectedButton('primeiroBotao');
+  }
+}, [searchParams, setSelectedButton]);
 
   return (
     <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>

@@ -47,18 +47,23 @@ const CustomImage: React.FC<CustomImageProps> = ({ onError, src, alt }) => {
 };
 
 
+type Conteudo = {
+  id: string;
+  tipo: string;
+  caminho: string;
+};
+
 type Work = {
   id: string;
-  categoria: string,
+  tag: string[];
   nome: string;
   data: string;
   description: string;
-  tag: string[];
   url: string;
   imagens: string[];
+  categoria: string;
+  conteudos: Conteudo[];
 };
-
-
 
 export default function Carousel(): JSX.Element | null {
   const router = useRouter();
@@ -117,7 +122,7 @@ export default function Carousel(): JSX.Element | null {
 
     return (
       <div className='swiper-container text-white widescreen-container'>
-          <div className="swiper-wrapper widescreen-inner">
+          <div className="swiper-wrapper widescreen-inner mb-2 h-3/4">
           {zoomEnabled && (
                   <button type="button" onClick={handleZoomButtonClick} className="absolute z-10 top-0 right-0 m-5 rounded-full bg-gray-800/80 p-2 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -147,17 +152,24 @@ export default function Carousel(): JSX.Element | null {
           }}
           modules={[Keyboard, Pagination, Navigation, EffectCreative]}
         >
-          {productData.imagens.map((image, index) => (
+          {productData.conteudos.map((conteudo, index) => (
             <SwiperSlide key={index}>
               <div className="swiper-slide-content">
-                {typeof image === 'string' && (
+              {conteudo.tipo === 'imagem' ? (
                   <CustomImage
-                    src={`/imagens/db/${productData.categoria}/${productData.url}/${image}.png`}
+                    src={conteudo.caminho}
                     alt={productData.id}
                     onError={() => {
-                      console.error(`Erro ao carregar a imagem ${image}`);
+                      console.error(`Erro ao carregar a imagem ${conteudo.caminho}`);
                     }}
                   />
+                  ) : conteudo.tipo === 'video' ? (
+                    <video controls>
+                        <source src={conteudo.caminho} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ) : (
+                    <p>Tipo de conteúdo não suportado: {conteudo.tipo}</p>
                 )}
               </div>
             </SwiperSlide>

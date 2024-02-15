@@ -1,4 +1,4 @@
-import {  useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -15,40 +15,60 @@ type Work = {
 
 const Detalhesdb = () => {
   const searchParams = useSearchParams();
-  const productId = searchParams.get('productId') || '';
+  const router = useRouter();
+  const productId = searchParams.get('productId');
   const [loading, setLoading] = useState(true);
 
   const [productData, setProductData] = useState<Work | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
         setLoading(true);
-
         const response = await fetch(`/api/fetch_api?id=${productId}`);
         const result = await response.json();
 
         if (typeof result === 'object' && result.work) {
           setProductData(result.work);
-
         } else {
           console.error("Os dados recebidos não contêm um objeto 'product':", result);
-
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
-
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    if (searchParams.get('productId')) {
+    if (productId) {
       fetchData();
     } else {
       setProductData(null);
     }
+
+    const handleSearchParamsChange = () => {
+      const newProductId = searchParams.get('productId');
+      if (newProductId !== productId) {
+        fetchData();
+      }
+    };
+
+    // Adicionar um ouvinte para o evento de mudança nos parâmetros de busca
+    window.addEventListener('searchParamsChange', handleSearchParamsChange);
+
+    // Remover o ouvinte ao desmontar o componente
+    return () => {
+      window.removeEventListener('searchParamsChange', handleSearchParamsChange);
+    };
   }, [searchParams, productId]);
+
+  const handleTagClick = (tag: string) => {
+    const newSearchParams = new URLSearchParams();
+    newSearchParams.set('tag', tag);
+    router.push(`?${newSearchParams.toString()}`);
+  };
+  
+
 
   if (!productId) {
     return null;
@@ -78,6 +98,7 @@ const Detalhesdb = () => {
         {productData?.tag?.map((tag, index) => (
           <button
             key={index}
+            onClick={() => handleTagClick(tag)}
             className="bg-gray-300 flex flex-wrap align-center text-xs justify-center text-gray-800 p-1 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
           ><Image src={'/imagens/tag.svg'} 
           width={20}
