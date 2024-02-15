@@ -29,9 +29,16 @@ export const Links: React.FC<LinksProps> = ({
   const searchParams = useSearchParams(); 
 
   const handleButtonClick = (buttonId: string, path: any) => {
+    const productIdFromParams = searchParams.get('productId');
 
-    setSelectedButton(buttonId);
-    router.replace(path);
+    if (!productIdFromParams) {
+      setProductId('01');
+      setSelectedButton(buttonId);
+      router.push(path);
+    } else {
+      setSelectedButton(buttonId);
+      router.push(path);
+    }
   };
 
 useEffect(() => {
@@ -72,12 +79,13 @@ useEffect(() => {
   const productIdFromParams = searchParams.get('productId');
 
   if (productIdFromParams) {
+    setProductId(productIdFromParams);
     setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
   } else {
-    // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
+    setProductId('01'); 
     setSelectedButton('primeiroBotao');
   }
-}, [searchParams, setSelectedButton]);
+}, [searchParams, setProductId, setSelectedButton]);
 
   return (
     <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>
