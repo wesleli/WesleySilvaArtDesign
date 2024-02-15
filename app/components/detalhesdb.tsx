@@ -84,22 +84,22 @@ const Detalhesdb = () => {
           {productData ? (
       <>
         <div className='flex flex-col mb-2'>
-          <h1 className='font-semibold text-2xl'>{productData.nome}</h1>
+          <h1 className='font-bold text-sm md:text-2xl'>{productData.nome}</h1>
         </div>
-        <div className='flex mb-2 flex-wrap text-sm'>
+        <div className='flex mb-2 flex-wrap text-sm items-center'>
         <Image src={'/imagens/backspace.svg'} 
         width={20}
         height={20}
       objectFit='contain'
       className='mr-2'
-     alt='ID'/><h1 className='font-semibold mr-2 text-sm'>ID: </h1><p>{productData.id}</p>
+     alt='ID'/><h1 className='font-semibold mr-2 text-xs md:text-sm'>ID: </h1><p>{productData.id}</p>
         </div>
-        <div className='flex flex-wrap mb-2 text-sm'>
+        <div className='flex flex-wrap mb-2 text-xs md:text-sm items-center'>
         {productData?.tag?.map((tag, index) => (
           <button
             key={index}
             onClick={() => handleTagClick(tag)}
-            className="bg-gray-300 flex flex-wrap align-center text-xs justify-center text-gray-800 p-1 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
+            className="bg-gray-300 flex flex-wrap align-center text-xs md:text-sm justify-center text-gray-800 p-2 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
           ><Image src={'/imagens/tag.svg'} 
           width={20}
           height={20}
@@ -110,19 +110,19 @@ const Detalhesdb = () => {
           </button>
         ))}
         </div>
-        <div className='flex flex-wrap text-center text-sm mb-2'>
+        <div className='flex flex-wrap text-center text-sm mb-2 items-center'>
         <Image src={'/imagens/annual.svg'} 
           width={20}
           height={20}
         objectFit='contain'
         className='mr-2'
-       alt='ano'/><h1 className='font-semibold mr-2 text-sm'>Ano: </h1>{typeof productData.data === 'string' ? (
+       alt='ano'/><h1 className='font-semibold mr-2 text-xs md:text-sm'>Ano: </h1>{typeof productData.data === 'string' ? (
         <p>{productData.data.slice(-4)}</p>
       ) : (
         <p>{productData.data.getFullYear()}</p>
       )}
         </div>
-        <div className='flex flex-col mb-2 text-base font-mono'>
+        <div className='flex flex-col mb-2 text-xs md:text-sm font-mono'>
           <h1 className='font-semibold mr-2 text-lg'>Descrição: </h1><p>{productData.description}</p>
         </div>
       </>

@@ -8,6 +8,11 @@ import IconTela02 from "./imagens/Telas_02.png";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
+type Work = {
+  id: string;
+  // Outras propriedades do produto
+};
+
 type LinksProps = {
   parentId: string;
   selectedButton: string;
@@ -28,52 +33,67 @@ export const Links: React.FC<LinksProps> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams(); 
 
-  const handleButtonClick = (buttonId: string, path: any) => {
-    if (productId === null) {
-      const newProductId = '01';
-      setProductId(newProductId);
-      setSelectedButton(buttonId);
-      const firstPath: any = `/${parentName}?productId=${newProductId}`;
-      router.push(firstPath);
-    } else {
+  const handleButtonClick = async (buttonId: string, path: any) => {
+    if (productId === null) { try {
+      // Busca os trabalhos da API
+      const response = await fetch(`/api/fetch_api?categoria=${parentName}`);
+      const work = await response.json();
+      const data = work.works;
+      console.log(data)
+  
+      if (data && data.length > 0) {
+        // Encontra o ID do primeiro trabalho na categoria
+        const firstWorkId = data[0].id;
+        setProductId(firstWorkId);
+        setSelectedButton(buttonId);
+        const firstPath: any = `/${parentName}?productId=${firstWorkId}`;
+        router.push(firstPath);
+      } else {
+        setSelectedButton(buttonId);
+        router.push(path);
+      }
+    } catch (error) {
+      console.error('Error fetching work:', error);
+      const url: any = `/${parentName}`;
+      router.push(url);
+    } } else {
       setSelectedButton(buttonId);
       router.push(path);
     }
   };
 
-useEffect(() => {
-  const productIdFromParams = searchParams.get('productId');
-
-  if (productIdFromParams) {
-    setProductId(productIdFromParams);
-    setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
-  } else {
-    // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
-    setSelectedButton('primeiroBotao');
-  }
-}, [searchParams, setProductId, setSelectedButton]);
-
-useEffect(() => {
-  const handleSearchParamsChange = () => {
+  useEffect(() => {
     const productIdFromParams = searchParams.get('productId');
 
     if (productIdFromParams) {
+      setProductId(productIdFromParams);
       setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
     } else {
       // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
       setSelectedButton('primeiroBotao');
     }
-  };
+  }, [searchParams, setProductId, setSelectedButton]);
 
-  // Adicionar um ouvinte para o evento de mudança nos parâmetros de busca
-  window.addEventListener('searchParamsChange', handleSearchParamsChange);
+  useEffect(() => {
+    const handleSearchParamsChange = () => {
+      const productIdFromParams = searchParams.get('productId');
 
-  // Remover o ouvinte ao desmontar o componente
-  return () => {
-    window.removeEventListener('searchParamsChange', handleSearchParamsChange);
-  };
-}, [searchParams, setSelectedButton]);
+      if (productIdFromParams) {
+        setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
+      } else {
+        // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
+        setSelectedButton('primeiroBotao');
+      }
+    };
 
+    // Adicionar um ouvinte para o evento de mudança nos parâmetros de busca
+    window.addEventListener('searchParamsChange', handleSearchParamsChange);
+
+    // Remover o ouvinte ao desmontar o componente
+    return () => {
+      window.removeEventListener('searchParamsChange', handleSearchParamsChange);
+    };
+  }, [searchParams, setSelectedButton]);
 
   return (
     <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>
