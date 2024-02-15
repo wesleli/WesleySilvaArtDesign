@@ -86,7 +86,7 @@ const Detalhesdb = () => {
         <div className='flex flex-col mb-2'>
           <h1 className='font-bold text-sm md:text-2xl'>{productData.nome}</h1>
         </div>
-        <div className='flex mb-2 flex-wrap text-sm items-center'>
+        <div className='flex flex-wrap text-sm items-center'>
         <Image src={'/imagens/backspace.svg'} 
         width={20}
         height={20}
