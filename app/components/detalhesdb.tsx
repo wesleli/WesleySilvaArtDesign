@@ -86,13 +86,13 @@ const Detalhesdb = () => {
         <div className='flex flex-col mb-2'>
           <h1 className='font-semibold text-2xl'>{productData.nome}</h1>
         </div>
-        <div className='flex mb-2 text-sm'>
+        <div className='flex mb-2 flex-wrap text-sm'>
         <Image src={'/imagens/backspace.svg'} 
         width={20}
         height={20}
       objectFit='contain'
       className='mr-2'
-     alt='ID'/><h1 className='font-semibold mr-2 '>ID: </h1><p>{productData.id}</p>
+     alt='ID'/><h1 className='font-semibold mr-2 text-sm'>ID: </h1><p>{productData.id}</p>
         </div>
         <div className='flex flex-wrap mb-2 text-sm'>
         {productData?.tag?.map((tag, index) => (
