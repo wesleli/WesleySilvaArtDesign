@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function Page() {
     const [selectedButton, setSelectedButton] = useState('primeiroBotao');
-    const [productId, setProductId] = useState('1');
+    const [productId, setProductId] = useState<string | null>(null);
 
 
     const id = "design";

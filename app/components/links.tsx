@@ -11,9 +11,9 @@ import { useState, useEffect } from 'react';
 type LinksProps = {
   parentId: string;
   selectedButton: string;
-  productId: string;
+  productId: string | null;
   setSelectedButton: React.Dispatch<React.SetStateAction<string>>;
-  setProductId: React.Dispatch<React.SetStateAction<string>>;
+  setProductId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const Links: React.FC<LinksProps> = ({
@@ -29,12 +29,12 @@ export const Links: React.FC<LinksProps> = ({
   const searchParams = useSearchParams(); 
 
   const handleButtonClick = (buttonId: string, path: any) => {
-    const productIdFromParams = searchParams.get('productId');
-
-    if (!productIdFromParams) {
-      setProductId('01');
+    if (productId === null) {
+      const newProductId = '01';
+      setProductId(newProductId);
       setSelectedButton(buttonId);
-      router.push(path);
+      const firstPath: any = `/${parentName}?productId=${newProductId}`;
+      router.push(firstPath);
     } else {
       setSelectedButton(buttonId);
       router.push(path);
@@ -46,7 +46,7 @@ useEffect(() => {
 
   if (productIdFromParams) {
     setProductId(productIdFromParams);
-    setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
+    setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
   } else {
     // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
     setSelectedButton('primeiroBotao');
@@ -58,7 +58,7 @@ useEffect(() => {
     const productIdFromParams = searchParams.get('productId');
 
     if (productIdFromParams) {
-      setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
+      setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
     } else {
       // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
       setSelectedButton('primeiroBotao');
@@ -74,18 +74,6 @@ useEffect(() => {
   };
 }, [searchParams, setSelectedButton]);
 
-// Verificar e atualizar o estado do botão ao renderizar o componente
-useEffect(() => {
-  const productIdFromParams = searchParams.get('productId');
-
-  if (productIdFromParams) {
-    setProductId(productIdFromParams);
-    setSelectedButton(productIdFromParams === '1' ? 'primeiroBotao' : 'segundoBotao');
-  } else {
-    setProductId('01'); 
-    setSelectedButton('primeiroBotao');
-  }
-}, [searchParams, setProductId, setSelectedButton]);
 
   return (
     <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>

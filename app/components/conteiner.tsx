@@ -21,9 +21,9 @@ type Data = {
 type ConteinerProps = {
   parentId: string;
   selectedButton: string;
-  productId: string;
+  productId: string | null;
   setSelectedButton: React.Dispatch<React.SetStateAction<string>>;
-  setProductId: React.Dispatch<React.SetStateAction<string>>;
+  setProductId: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export default function Conteiner({
@@ -68,6 +68,9 @@ export default function Conteiner({
             }
           }
 
+          
+         
+
           setData(filteredData);
         } else {
           console.error("Os dados recebidos não contêm uma matriz:", result);
@@ -85,7 +88,7 @@ export default function Conteiner({
   const handleButtonClick = (pathname: any, dataId: string) => {
     router.push(pathname);
     setSelectedButton('segundoBotao'); 
-    setProductId(dataId); 
+      setProductId(dataId);
   };
 
 
