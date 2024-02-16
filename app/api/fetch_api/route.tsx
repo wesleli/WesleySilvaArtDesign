@@ -16,7 +16,7 @@ type Work = {
     url: string;
     imagens: string[];
     categoria: string;
-    conteudos: Conteudo[]; // Alteração: permitindo que conteudo seja null
+    conteudos: Conteudo[]; 
 };
 
 export async function GET(request: Request) {
@@ -34,14 +34,14 @@ export async function GET(request: Request) {
             const work: Work | null = result.rows.length > 0
             ? {
                 id: result.rows[0].id,
-                tag: result.rows[0].tag, // Alteração: nome da coluna 'tag' para 'tags'
+                tag: result.rows[0].tag,
                 nome: result.rows[0].nome,
                 data: result.rows[0].data,
                 description: result.rows[0].description,
                 url: result.rows[0].url,
                 imagens: result.rows[0].imagens,
                 categoria: result.rows[0].categoria,
-                conteudos: result.rows[0].conteudos // Parse do JSON para objeto
+                conteudos: result.rows[0].conteudos 
             }
             : null;
 

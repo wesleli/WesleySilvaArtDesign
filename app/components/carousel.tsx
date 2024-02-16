@@ -121,8 +121,8 @@ export default function Carousel(): JSX.Element | null {
 
 
     return (
-      <div className='swiper-container text-white widescreen-container'>
-          <div className="swiper-wrapper widescreen-inner mb-2 h-3/4">
+      <div className='swiper-container text-white widescreen-container mb-2  bg-slate-800/60 border-slate-800/60 border-2'>
+          <div className="swiper-wrapper widescreen-inner h-3/4">
           {zoomEnabled && (
                   <button type="button" onClick={handleZoomButtonClick} className="absolute z-10 top-0 right-0 m-5 rounded-full bg-gray-800/80 p-2 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -154,7 +154,7 @@ export default function Carousel(): JSX.Element | null {
         >
           {productData.conteudos.map((conteudo, index) => (
             <SwiperSlide key={index}>
-              <div className="swiper-slide-content">
+              <div className="swiper-slide-content flex justify-center items-center align-center h-full">
               {conteudo.tipo === 'imagem' ? (
                   <CustomImage
                     src={conteudo.caminho}
@@ -164,10 +164,12 @@ export default function Carousel(): JSX.Element | null {
                     }}
                   />
                   ) : conteudo.tipo === 'video' ? (
-                    <video controls>
-                        <source src={conteudo.caminho} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                <div className="w-full max-w-full h-full flex justify-center items-center">
+                  <video controls className='max-w-full max-h-full py-7'>
+                    <source src={conteudo.caminho} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
                 ) : (
                     <p>Tipo de conteúdo não suportado: {conteudo.tipo}</p>
                 )}
