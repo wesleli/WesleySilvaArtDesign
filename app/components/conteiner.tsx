@@ -46,6 +46,7 @@ export default function Conteiner({
       try {
         const response = await fetch('/api/fetch_api');
         const result = await response.json() as { works: Data[] };
+       
 
         if (typeof result === 'object' && Array.isArray(result.works)) {
           let filteredData = result.works.filter(work => work.categoria === parentId);
@@ -74,6 +75,10 @@ export default function Conteiner({
           setData(filteredData);
         } else {
           console.error("Os dados recebidos não contêm uma matriz:", result);
+          console.log({
+            POSTGRES_URL: process.env.POSTGRES_URL,
+            POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+      });
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);

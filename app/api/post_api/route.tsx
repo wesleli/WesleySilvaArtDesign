@@ -57,6 +57,7 @@ export async function POST(req: NextRequest,res: NextResponse){
         return NextResponse.json({ message: "Dados inseridos com sucesso na tabela 'works'!" }, { status: 200 });
     } catch (error) {
         console.error("Erro ao inserir dados na tabela 'works':", error);
+        
         return NextResponse.json({ error: 'Erro interno do servidor. Consulte os logs para obter mais informações.' }, { status: 500 });
     }
 }

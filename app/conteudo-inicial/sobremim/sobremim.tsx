@@ -3,9 +3,9 @@ import Image from "next/image"
 export default function Sobremim() {
 
 
-    return <div id="conteudo-04">
-                    <div className="redessociais2">
-                        <ul>
+    return <div id="conteudo-04" className="container mx-auto">
+                    <div className="redessociais absolute top-0 right-0 mt-4 mr-4">
+                        <ul className="flex space-x-4">
                             <li><a href="https://www.behance.net/wesleydasilva15"> <Image 
                             src="/imagens/redes_BE_icon_02.png"
                             width={50}

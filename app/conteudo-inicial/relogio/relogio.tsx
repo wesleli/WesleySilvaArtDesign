@@ -118,7 +118,7 @@ export default function Relogio() {
     const minutes = data.getMinutes().toString().padStart(2, '0');
 
 
-    return <section id="conteudo-05" style={{backgroundImage, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}>
+    return <section id="conteudo-05" className="container mx-auto" style={{backgroundImage, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',}}>
                       <div className='nameoclock'>
                         <div className='clock'>
                             <div className='baserelogio'><Image className='tiktok' src={'/imagens/tiktok.png'} width={180} height={180} alt='tiktok'></Image></div>
