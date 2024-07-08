@@ -84,7 +84,7 @@ export default function Inicio() {
           <h2 className="ml-2 text-lg text-red-50">2024</h2>
         </div>
       {/* Foto de Perfil */}
-      <div className="fotoperfil conteiner">
+      <div className="fotoperfil">
         <Image 
           src="/imagens/FotoPerfil.png"
           width={540}
