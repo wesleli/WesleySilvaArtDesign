@@ -34,7 +34,7 @@ export default function RootLayout({
           <link href="https://fonts.googleapis.com/css2?family=Rubik+Broken+Fax&display=swap" rel="stylesheet"></link>
           <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet"></link>
         </head>
-        <body className="relative bg-gray-100 h-screen w-full">
+        <body className="relative h-screen w-full">
         <Suspense fallback={<Loading />}>
         <Loading />
             {children}

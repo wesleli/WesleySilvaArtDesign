@@ -8,7 +8,7 @@ import Portfolio from "./conteudo-inicial/portfolio/portfolio"
 export default function Page() {
 
 
-    return <div className="h-full w-full">
+    return <div className="h-full w-fulf">
                 <Inicio></Inicio>
                 <Portfolio></Portfolio>
                 <Sobremim></Sobremim>

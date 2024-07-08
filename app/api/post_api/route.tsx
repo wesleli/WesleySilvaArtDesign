@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sql } from "@vercel/postgres";
+import fs from "fs";
+import path from "path";
+import util from "util";
 
+const mkdir = util.promisify(fs.mkdir);
+const writeFile = util.promisify(fs.writeFile);
 
 type Conteudo = {
     id: string;
     tipo: string;
     caminho: string;
 };
-// Define o tipo para a estrutura de dados do trabalho
+
 type Work = {
     id: string;
     tag: string[];
@@ -20,18 +25,57 @@ type Work = {
     conteudos: Conteudo[]; 
 };
 
-// Função para lidar com requisições POST
-export async function POST(req: NextRequest,res: NextResponse){
+async function ensureDirectoryExists(filePath: string) {
+    const dirname = path.dirname(filePath);
+    try {
+        await mkdir(dirname, { recursive: true });
+    } catch (error:any) {
+        if (error.code !== 'EEXIST') {
+            throw error;
+        }
+    }
+}
+
+export async function POST(req: NextRequest, res: NextResponse) {
     console.log("Recebendo requisição POST...");
 
     try {
         // Extrai os dados da requisição POST
-        const data: Work = await req.json();
+        const formData = await req.formData();
 
-        // Verifica se os dados estão presentes e têm o formato esperado
-        if (!data || typeof data !== 'object') {
-            console.error('Dados inválidos:', data);
-            return NextResponse.json({ error: 'Dados inválidos. O corpo da requisição deve ser um objeto JSON.' }, { status: 400 });
+        // Extrai os dados do formulário
+        const data: Work = {
+            id: formData.get("id") as string,
+            tag: (formData.get("tag") as string).split(",").map(tag => tag.trim()),
+            nome: formData.get("nome") as string,
+            data: formData.get("data") as string,
+            description: formData.get("description") as string,
+            url: formData.get("url") as string,
+            imagens: (formData.get("imagens") as string).split(",").map(imagem => imagem.trim()),
+            categoria: formData.get("categoria") as string,
+            conteudos: JSON.parse(formData.get("conteudos") as string) as Conteudo[],
+        };
+
+        // Cria o diretório para armazenar os arquivos
+        const diretorio = `public/imagens/db/${data.categoria}/${data.nome}`;
+        await ensureDirectoryExists(diretorio);
+
+        // Loop para salvar os arquivos na pasta criada
+        for (let i = 0; i < data.conteudos.length; i++) {
+            const conteudo = data.conteudos[i];
+            const conteudoId = `${data.id}_${i + 1}`; // Exemplo de geração dinâmica de ID
+            const tipo = conteudo.tipo; // Supondo que tipo já venha preenchido corretamente
+            const caminho = `${conteudoId}_${conteudo.caminho}`; // Exemplo de geração de caminho único
+
+            // Atualiza o conteúdo com os dados gerados dinamicamente
+            data.conteudos[i] = {
+                id: conteudoId,
+                tipo: tipo,
+                caminho: caminho,
+            };
+
+            const filePath = path.join(diretorio, caminho);
+            await writeFile(filePath, conteudo.caminho);
         }
 
         // Insere os dados na tabela 'works'
@@ -51,6 +95,9 @@ export async function POST(req: NextRequest,res: NextResponse){
         `;
 
         console.log("Dados inseridos com sucesso:", data);
+
+        // Retorna uma resposta de sucesso
+        console.log("Requisição POST processada com sucesso. Retornando resposta.");
 
         // Retorna uma resposta de sucesso
         console.log("Requisição POST processada com sucesso. Retornando resposta.");

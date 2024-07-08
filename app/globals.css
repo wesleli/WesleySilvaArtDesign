@@ -13,8 +13,7 @@ html {
 }
 
 body {
-  color: blanchedalmond;
-  background: rgb(4,5,22);
+  background: rgb(255, 255, 255);
 }
 
 *{
@@ -220,7 +219,7 @@ body {
   position: absolute;
       bottom: 0;
       right: 0;
-      margin-right: 10%;
+      margin-right: 3%;
       width: 500px;
 }
 
@@ -237,7 +236,7 @@ body {
   font-size: 20px;
   margin-left: 10px;
   font-family: 'Archivo Black', sans-serif;
-  color: #d51f16;
+  color: #f3e0df;
   text-shadow: 2px 2px black;
 }
 

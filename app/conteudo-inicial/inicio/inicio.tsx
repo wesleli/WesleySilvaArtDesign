@@ -10,7 +10,7 @@ export default function Inicio() {
 
     return <section id="conteudo-01" className="container mx-auto py-12">
     <div className="flex flex-col md:flex-row items-center justify-between">
-      
+    <h1 className="conteiner text-4xl absolute left-0 font-bold text-gray-900 ml-5 md:ml-10">Wesley Silva</h1>
       {/* Redes Sociais */}
       <div className="redessociais">
         <ul className="flex space-x-4">
@@ -68,23 +68,23 @@ export default function Inicio() {
       </div>
       
       {/* Informações Pessoais */}
-      <div className="text-left md:text-center md:max-w-lg pt-5">
-        <h1 className="text-4xl absolute left-0 font-bold text-gray-900 ml-5 md:ml-10">Wesley Silva</h1>
-        <p className="text-lg font-semibold text-gray-300 leading-relaxed my-4 md:text-right md:max-w-lg p-8">
+      <div className="conteiner text-left md:text-center md:max-w-lg mt-15 pt-5">
+        
+        <p className="text-lg font-semibold text-yellow-50 leading-relaxed my-4 md:text-right md:max-w-lg p-8">
           Artista Interdisciplinar <br/>
           De Volta Redonda (RJ), Morando em Curitiba<br/>
           Conhecimento em Design e Programação<br/>
           Disponível para Trabalhos
         </p>
   
-        <div className="data-square flex items-center">
-          <Image src="/imagens/square.png" width={30} height={30} alt="square" />
-          <h2 className="ml-2 text-lg text-gray-700">2023</h2>
-        </div>
+        
       </div>
-      
+      <div className="data-square flex items-center">
+          <Image src="/imagens/square.png" width={30} height={30} alt="square" />
+          <h2 className="ml-2 text-lg text-red-50">2024</h2>
+        </div>
       {/* Foto de Perfil */}
-      <div className="fotoperfil">
+      <div className="fotoperfil conteiner">
         <Image 
           src="/imagens/FotoPerfil.png"
           width={540}
