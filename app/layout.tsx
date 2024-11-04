@@ -25,7 +25,7 @@ export default function RootLayout({
     return (
       <html lang="pt" className='scroll-smooth'>
         <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="https://img.icons8.com/?size=100&id=z319sFhd46s4&format=png&color=F42B2B" sizes="any" />
           <link rel="preconnect" href="https://fonts.googleapis.com"/>
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
           <link href="https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap" rel="stylesheet"/>

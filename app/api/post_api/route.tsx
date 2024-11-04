@@ -29,14 +29,14 @@ async function ensureDirectoryExists(filePath: string) {
     const dirname = path.dirname(filePath);
     try {
         await mkdir(dirname, { recursive: true });
-    } catch (error:any) {
+    } catch (error: any) {
         if (error.code !== 'EEXIST') {
             throw error;
         }
     }
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     console.log("Recebendo requisição POST...");
 
     try {
@@ -64,18 +64,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
         for (let i = 0; i < data.conteudos.length; i++) {
             const conteudo = data.conteudos[i];
             const conteudoId = `${data.id}_${i + 1}`; // Exemplo de geração dinâmica de ID
-            const tipo = conteudo.tipo; // Supondo que tipo já venha preenchido corretamente
-            const caminho = `${conteudoId}_${conteudo.caminho}`; // Exemplo de geração de caminho único
+            const tipo = conteudo.tipo;
+            const caminho = `${conteudoId}_${conteudo.caminho}`;
+            data.conteudos[i] = { id: conteudoId, tipo, caminho };
 
-            // Atualiza o conteúdo com os dados gerados dinamicamente
-            data.conteudos[i] = {
-                id: conteudoId,
-                tipo: tipo,
-                caminho: caminho,
-            };
-
-            const filePath = path.join(diretorio, caminho);
-            await writeFile(filePath, conteudo.caminho);
+            // Se `conteudo.caminho` é um arquivo Blob, converte para Buffer antes de salvar
+            const arquivoBlob = formData.get(conteudo.caminho) as Blob;
+            if (arquivoBlob) {
+                const arrayBuffer = await arquivoBlob.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                const filePath = path.join(diretorio, caminho);
+                await writeFile(filePath, buffer);
+            }
         }
 
         // Insere os dados na tabela 'works'
@@ -95,16 +95,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         `;
 
         console.log("Dados inseridos com sucesso:", data);
-
-        // Retorna uma resposta de sucesso
-        console.log("Requisição POST processada com sucesso. Retornando resposta.");
-
-        // Retorna uma resposta de sucesso
-        console.log("Requisição POST processada com sucesso. Retornando resposta.");
         return NextResponse.json({ message: "Dados inseridos com sucesso na tabela 'works'!" }, { status: 200 });
     } catch (error) {
         console.error("Erro ao inserir dados na tabela 'works':", error);
-        
         return NextResponse.json({ error: 'Erro interno do servidor. Consulte os logs para obter mais informações.' }, { status: 500 });
     }
 }

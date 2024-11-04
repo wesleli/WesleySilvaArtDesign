@@ -21,7 +21,7 @@ export default function Detalhes() {
     
 
 
-    return ( <div className="conteiner">
+    return ( <div className="container inline-block max-w-full overflow-x-auto">
         {shouldRenderDetails ? (
         // Certifique-se de passar Id como uma propriedade para Detalhesdb
         <Detalhesdb />

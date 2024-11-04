@@ -1,99 +1,68 @@
+'use client';
 
-'use client'
-
-import Image from "next/image"
-
-
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Inicio() {
+    const router = useRouter();
 
+    return (
+        <section className="w-full h-screen flex flex-col justify-between p-4 md:p-8">
+            {/* Topo com redes sociais */}
+            <div className="flex justify-between items-start h-[10vh]">
+                <div className="flex space-x-2 md:space-x-3 absolute top-4 right-4">
+                    <a href="https://wa.me/5541996922729" target="_blank" rel="noopener noreferrer">
+                        <Image src="https://img.icons8.com/?size=100&id=16733&format=png&color=F42B2B" width={30} height={30} alt="WhatsApp" />
+                    </a>
+                    <a href="https://www.linkedin.com/in/wesleysilvaartdesign" target="_blank" rel="noopener noreferrer">
+                        <Image src="https://img.icons8.com/?size=100&id=8808&format=png&color=F42B2B" width={30} height={30} alt="LinkedIn" />
+                    </a>
+                    <a href="https://www.instagram.com/wes.artdesign/" target="_blank" rel="noopener noreferrer">
+                        <Image src="https://img.icons8.com/?size=100&id=32309&format=png&color=F42B2B" width={30} height={30} alt="Instagram" />
+                    </a>
+                    <a href="https://www.behance.net/wesleydasilva15" target="_blank" rel="noopener noreferrer">
+                        <Image src="https://img.icons8.com/?size=100&id=12485&format=png&color=F42B2B" width={30} height={30} alt="Behance" />
+                    </a>
+                    <a href="https://github.com/wesleli" target="_blank" rel="noopener noreferrer">
+                        <Image src="https://img.icons8.com/?size=100&id=12599&format=png&color=F42B2B" width={30} height={30} alt="GitHub" />
+                    </a>
+                </div>
+            </div>
 
-    return <section id="conteudo-01" className="container mx-auto py-12">
-    <div className="flex flex-col md:flex-row items-center justify-between">
-    <h1 className="conteiner text-4xl absolute left-0 font-bold text-gray-900 ml-5 md:ml-10">Wesley Silva</h1>
-      {/* Redes Sociais */}
-      <div className="redessociais">
-        <ul className="flex space-x-4">
-          <li>
-            <a href="https://www.behance.net/wesleydasilva15" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/imagens/redes_BE_icon_01.png"
-                width={50}
-                height={50}
-                alt="Behance"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/wes.artdesign/" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/imagens/redes_INS_icon_01.png"
-                width={50}
-                height={50}
-                alt="Instagram"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/in/wesleysilvaartdesign/" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/imagens/redes_LIN_icon_01.png"
-                width={50}
-                height={50}
-                alt="LinkedIn"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/wesleli" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/imagens/redes_GIT_icon_01.png"
-                width={50}
-                height={50}
-                alt="GitHub"
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://wa.me/qr/B2XJ4SCQTXRZA1" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/imagens/redes_WA_icon_01.png"
-                width={50}
-                height={50}
-                alt="WhatsApp"
-              />
-            </a>
-          </li>
-        </ul>
-      </div>
-      
-      {/* Informações Pessoais */}
-      <div className="conteiner text-left md:text-center md:max-w-lg mt-15 pt-5">
-        
-        <p className="text-lg font-semibold text-yellow-50 leading-relaxed my-4 md:text-right md:max-w-lg p-8">
-          Artista Interdisciplinar <br/>
-          De Volta Redonda (RJ), Morando em Curitiba<br/>
-          Conhecimento em Design e Programação<br/>
-          Disponível para Trabalhos
-        </p>
-  
-        
-      </div>
-      <div className="data-square flex items-center">
-          <Image src="/imagens/square.png" width={30} height={30} alt="square" />
-          <h2 className="ml-2 text-lg text-red-50">2024</h2>
-        </div>
-      {/* Foto de Perfil */}
-      <div className="fotoperfil">
-        <Image 
-          src="/imagens/FotoPerfil.png"
-          width={540}
-          height={530}
-          alt="Foto de Perfil"
-          className="rounded-lg"
-        />
-      </div>
-    </div>
-  </section>
-  
+            {/* Contêiner central com retângulo preto e texto alinhado na parte inferior */}
+            <div className="flex justify-center items-center h-[60vh] mx-4 md:mx-20">
+                <div className="flex w-full h-full pb-10">
+                    {/* Retângulo preto com "arte" alinhado na parte inferior */}
+                    <div className="w-1/2 h-full bg-black flex justify-end items-end pb-6 pr-8">
+                        <button
+                            onClick={() => router.push('/arte')}
+                            className="text-4xl md:text-6xl font-bold text-red-600 transform hover:scale-105 transition-transform"
+                        >
+                            arte
+                        </button>
+                    </div>
+                    {/* Espaço para "design" alinhado na parte inferior */}
+                    <div className="w-1/2 h-full flex justify-start items-end pb-5 pl-8">
+                        <button
+                            onClick={() => router.push('/design')}
+                            className="text-4xl md:text-6xl font-bold text-gray-900 transform hover:scale-105 transition-transform"
+                        >
+                            design
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Nome e relógio no rodapé */}
+            <div className="flex justify-between items-center py-4">
+                <h1 className="text-xl md:text-2xl font-bold text-red-600">
+                    Wesley da Silva
+                </h1>
+                <button onClick={() => router.push('/theclock')}>
+                    <Image src="https://img.icons8.com/?size=100&id=59760&format=png&color=F42B2B" width={30} height={30} alt="Clock Icon" />
+                </button>
+            </div>
+        </section>
+    );
 }
+

@@ -80,7 +80,7 @@ const Detalhesdb = () => {
 
 
   return (
-    <div className='m-3 font-mono md:text-xs'>
+    <div className='m-3 font-mono md:text-xs inline-block'>
           {productData ? (
       <>
         <div className='flex flex-col mb-2'>
@@ -99,7 +99,7 @@ const Detalhesdb = () => {
           <button
             key={index}
             onClick={() => handleTagClick(tag)}
-            className="bg-gray-300 flex flex-wrap align-center text-xs md:text-sm justify-center text-gray-800 p-2 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
+            className="inline-block bg-gray-300 flex-wrap align-center text-xs md:text-sm justify-center text-gray-800 p-2 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
           ><Image src={'/imagens/tag.svg'} 
           width={20}
           height={20}
@@ -122,8 +122,8 @@ const Detalhesdb = () => {
         <p>{productData.data.getFullYear()}</p>
       )}
         </div>
-        <div className='flex flex-col text-xs mb-2 md:text-sm font-mono'>
-          <h1 className='font-semibold mr-2 text-base md:text-lg'>Descrição: </h1><p>{productData.description}</p>
+        <div className='text-xs mb-2 md:text-sm font-mono'>
+          <h1 className='font-semibold mr-2 text-base md:text-lg break-words'>Descrição: </h1><p className='inline-block break-words'>{productData.description}</p>
         </div>
       </>
     ) : (

@@ -1,18 +1,11 @@
 'use client'
 
-import Inicio from "./conteudo-inicial/inicio/inicio"
-import Sobremim from "./conteudo-inicial/sobremim/sobremim"
-import Relogio from "./conteudo-inicial/relogio/relogio"
-import Portfolio from "./conteudo-inicial/portfolio/portfolio"
+import Inicio from "./conteudo-inicial/inicio/inicio";
 
 export default function Page() {
-
-
-    return <div className="h-full w-fulf">
-                <Inicio></Inicio>
-                <Portfolio></Portfolio>
-                <Sobremim></Sobremim>
-                <Relogio></Relogio>
-            </div>
-
-  }
+    return (
+        <div className="h-screen w-full flex flex-col justify-between">
+            <Inicio />
+        </div>
+    );
+}

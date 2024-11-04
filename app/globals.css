@@ -436,7 +436,7 @@ padding: 10px;
 .data{
   position: absolute;
   font-family: 'Archivo Black', sans-serif;
-  font-size: 19.5px;
+  font-size: 18px;
   color: #d9e1f9;
   margin-top: 204px;
   margin-left: 117px;
@@ -447,10 +447,10 @@ padding: 10px;
 .hour {
   position: absolute;
   font-family: 'Archivo Black', sans-serif;
-  font-size: 19.5px;
+  font-size: 18px;
   color: #d9e1f9;
   margin-top: 185px;
-  margin-left: 38px;
+  margin-left: 45px;
   transform: rotate(39deg);
 }
 

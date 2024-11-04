@@ -39,3 +39,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+#pastas
+/app/adm
+/app/api/getArquivo
+/app/teste
+/firebase.js
