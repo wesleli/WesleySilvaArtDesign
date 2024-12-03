@@ -1,11 +1,15 @@
-"use client"
+'use client'
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthProvider';
 import { useRouter } from "next/navigation";
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+
+import dynamic from "next/dynamic";
+
+// Carrega o ReactQuill apenas no cliente
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 type Conteudo = {
   id: string;
@@ -26,7 +30,7 @@ type Work = {
   texto: string;
 };
 
-const AdminPage = () => {
+export default function AdminPage() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const [works, setWorks] = useState<Work[]>([]);
@@ -36,8 +40,8 @@ const AdminPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login"); // Redireciona para a página de login
+    if (isAuthenticated === false) {
+      router.push("/login");
     }
   }, [isAuthenticated, router]);
 
@@ -288,5 +292,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
 
