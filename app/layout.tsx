@@ -2,6 +2,7 @@
 import '/app/normalize.css';
 import '@/app/globals.css';
 import Loading from './loading';
+import { AuthProvider } from "./AuthProvider";
 
 
 import { Metadata } from 'next'
@@ -37,7 +38,9 @@ export default function RootLayout({
         <body className="relative h-screen w-full">
         <Suspense fallback={<Loading />}>
         <Loading />
+          <AuthProvider>
             {children}
+            </AuthProvider>
         </Suspense>
       </body>
 

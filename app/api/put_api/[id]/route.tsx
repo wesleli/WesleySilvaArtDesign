@@ -23,6 +23,7 @@ type Work = {
   imagens: string[];
   categoria: string;
   conteudos: Conteudo[];
+  texto: string;
 };
 
 // Função para garantir que o diretório existe
@@ -37,31 +38,37 @@ async function ensureDirectoryExists(filePath: string) {
   }
 }
 
-// Método POST: para criar um novo projeto
-export async function POST(req: NextRequest) {
+// Método PUT: para atualizar um projeto existente
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const formData = await req.formData();
+    const id = params.id;
+
+    if (!id) {
+      return NextResponse.json({ error: "ID do projeto não fornecido" }, { status: 400 });
+    }
 
     const data: Work = {
-      id: formData.get("id") as string,
-      tag: (formData.get("tag") as string)?.split(",").map((tag) => tag.trim()) || [],
+      id,
+      tag: JSON.parse(formData.get("tag") as string),
       nome: formData.get("nome") as string,
       data: formData.get("data") as string,
       description: formData.get("description") as string,
       url: formData.get("url") as string,
-      imagens: (formData.get("imagens") as string)?.split(",").map((img) => img.trim()) || [],
+      imagens: JSON.parse(formData.get("imagens") as string),
       categoria: formData.get("categoria") as string,
       conteudos: JSON.parse(formData.get("conteudos") as string) as Conteudo[],
+      texto: formData.get("texto") as string,
     };
 
     const diretorio = `public/imagens/db/${data.categoria}/${data.nome}`;
     await ensureDirectoryExists(diretorio);
 
-    // Salvar arquivos no diretório especificado
+    // Atualizar arquivos no diretório especificado
     for (let i = 0; i < data.conteudos.length; i++) {
       const conteudo = data.conteudos[i];
       const conteudoId = `${data.id}_${i + 1}`;
-      const caminho = `${conteudoId}_${conteudo.caminho}`;
+      const caminho = `${conteudo.caminho}`;
       data.conteudos[i] = { id: conteudoId, tipo: conteudo.tipo, caminho };
 
       const arquivoBlob = formData.get(conteudo.caminho) as Blob;
@@ -73,25 +80,26 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Inserir novo projeto no banco
+    // Atualizar projeto no banco de dados
     await sql`
-      INSERT INTO works (id, tag, nome, data, description, url, imagens, categoria, conteudos)
-      VALUES (
-          ${data.id},
-          ${JSON.stringify(data.tag)},
-          ${data.nome},
-          ${data.data},
-          ${data.description},
-          ${data.url},
-          ${JSON.stringify(data.imagens)},
-          ${data.categoria},
-          ${JSON.stringify(data.conteudos)}
-      );
+      UPDATE works
+      SET
+        tag = ${JSON.stringify(data.tag)},
+        nome = ${data.nome},
+        data = ${data.data},
+        description = ${data.description},
+        url = ${data.url},
+        imagens = ${JSON.stringify(data.imagens)},
+        categoria = ${data.categoria},
+        conteudos = ${JSON.stringify(data.conteudos)},
+        texto =  ${data.texto}
+      WHERE id = ${id};
     `;
 
-    return NextResponse.json({ message: "Projeto adicionado com sucesso!" }, { status: 200 });
+    return NextResponse.json({ message: "Projeto atualizado com sucesso!" }, { status: 200 });
   } catch (error) {
-    console.error("Erro ao adicionar projeto:", error);
-    return NextResponse.json({ error: "Erro ao adicionar projeto" }, { status: 500 });
+    console.error("Erro ao atualizar projeto:", error);
+    return NextResponse.json({ error: "Erro ao atualizar projeto" }, { status: 500 });
   }
 }
+

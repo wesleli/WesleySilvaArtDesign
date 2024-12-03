@@ -17,6 +17,7 @@ type Work = {
     imagens: string[];
     categoria: string;
     conteudos: Conteudo[]; 
+    texto: string;
 };
 
 export async function GET(request: Request) {
@@ -41,7 +42,8 @@ export async function GET(request: Request) {
                 url: result.rows[0].url,
                 imagens: result.rows[0].imagens,
                 categoria: result.rows[0].categoria,
-                conteudos: result.rows[0].conteudos 
+                conteudos: result.rows[0].conteudos, 
+                texto: result.rows[0].texto
             }
             : null;
 
@@ -60,7 +62,8 @@ export async function GET(request: Request) {
                 url: row.url,
                 imagens: row.imagens,
                 categoria: row.categoria,
-                conteudos: row.conteudos  // Definindo conteudo como null se a coluna não existir
+                conteudos: row.conteudos,
+                texto: row.texto  // Definindo conteudo como null se a coluna não existir
             }));
 
             return NextResponse.json({ works }, { status: 200 });
@@ -77,7 +80,8 @@ export async function GET(request: Request) {
             url: row.url,
             imagens: row.imagens,
             categoria: row.categoria,
-            conteudos: row.conteudos  // Definindo conteudo como null se a coluna não existir
+            conteudos: row.conteudos,
+            texto: row.texto  // Definindo conteudo como null se a coluna não existir
         }));
 
         return NextResponse.json({ works }, { status: 200 });

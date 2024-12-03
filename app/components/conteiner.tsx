@@ -16,6 +16,7 @@ type Data = {
   url: string;
   description: string;
   categoria: string; 
+  texto: string
 };
 
 type ConteinerProps = {
@@ -38,6 +39,7 @@ export default function Conteiner({
   const [data, setData] = useState<Data[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [selectedText, setSelectedText] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -46,21 +48,23 @@ export default function Conteiner({
       try {
         const response = await fetch('/api/fetch_api');
         const result = await response.json() as { works: Data[] };
-       
-
+  
         if (typeof result === 'object' && Array.isArray(result.works)) {
+          // Filtrar por categoria
           let filteredData = result.works.filter(work => work.categoria === parentId);
+  
+          // Filtrar por tag
           const tag = searchParams.get('tag');
-
           if (tag) {
-            // Filtrar os dados por tag, verificando se a tag da URL está presente no array de tags
             filteredData = filteredData.filter(work => work.tag.includes(tag));
           }
-          console.log(tag)
+          console.log(tag);
           console.log("Dados após filtro por tag:", filteredData);
-
+  
+          // Ordenar por data
           filteredData.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
-
+  
+          // Trazer o trabalho correspondente ao início, se existir
           if (productId) {
             const index = filteredData.findIndex(item => item.id === productId);
             if (index !== -1) {
@@ -68,17 +72,18 @@ export default function Conteiner({
               filteredData.unshift(selectedItem[0]);
             }
           }
-
-          
-         
-
+  
           setData(filteredData);
+  
+          // Verificar se há um trabalho para exibir texto
+          if (filteredData.length > 0) {
+            const selectedWork = filteredData[0]; // Seleciona o primeiro trabalho
+            if (selectedWork.texto) {
+              setSelectedText(selectedWork.texto); // Atualiza o estado com o texto
+            }
+          }
         } else {
           console.error("Os dados recebidos não contêm uma matriz:", result);
-          console.log({
-            POSTGRES_URL: process.env.POSTGRES_URL,
-            POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
-      });
         }
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -86,9 +91,10 @@ export default function Conteiner({
         setLoading(false);
       }
     }
-
+  
     fetchData();
   }, [parentId, productId, searchParams]);
+  
 
   const handleButtonClick = (pathname: any, dataId: string) => {
     router.push(pathname);
@@ -98,11 +104,14 @@ export default function Conteiner({
 
 
   return (
-<div className="inline-flex md:flex-row justify-between w-full pb-10">
+<div className="flex flex-col-reverse md:inline-flex md:flex-row justify-between w-full pb-10">
 
-<div className="flex-col relative items-start justify-start w-4/6 p-2 bg-gray-200 mt-2">
+<div className="flex-col relative items-start justify-start w-full md:w-4/6 p-2 bg-gray-200 mt-2">
   <Dialog />
-    <Carousel />
+  <Carousel />
+  <div>
+    
+  </div>
   {loading ? (
     <div className="flex items-center justify-center text-xl font-bold text-gray-500">
       Loading...
@@ -112,11 +121,11 @@ export default function Conteiner({
       No works to show
     </div>
   ) : (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-1 m-0">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-1">
       {data.map((dataItem) => (
         <div key={dataItem.id} className="grid m-0">
           <button
-            onClick={() => handleButtonClick(`/${parentName}?productId=${dataItem.id}`, dataItem.id)}
+            onClick={() => handleButtonClick(`/${parentName}?trabalho=${dataItem.id}`, dataItem.id)}
             id="btncontent"
             className={`relative w-full hover:border-2 hover:border-slate-500 ${selectedButton === 'segundoBotao' && productId === dataItem.id ? 'active' : ''}`}
           >
@@ -140,7 +149,7 @@ export default function Conteiner({
   )}
 </div>
 
-<div className="flex w-2/6 bg-gray-200 ml-2 mt-2">
+<div className="flex w-full md:w-2/6 bg-gray-200 md:ml-2 mt-2">
   <Detalhes/>
 </div>
 

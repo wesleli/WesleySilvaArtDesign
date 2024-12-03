@@ -68,7 +68,7 @@ type Work = {
 export default function Carousel(): JSX.Element | null {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const productId = searchParams.get('productId') || '';
+  const productId = searchParams.get('trabalho') || '';
   const zoomEnabled = !searchParams.has('zoom');
   const swiper = useSwiper();
   const [productData, setProductData] = useState<Work | null>(null);
@@ -121,11 +121,11 @@ export default function Carousel(): JSX.Element | null {
 
 
     return (
-      <div className='swiper-container text-white widescreen-container mb-2  bg-slate-800/60 border-slate-800/60 border-2'>
-          <div className="swiper-wrapper widescreen-inner h-3/4">
+      <div className='swiper-container text-white justify-self-center self-center items-center justify-items-center widescreen-container'>
+          <div className="swiper-wrapper justify-self-center self-center items-center justify-items-center widescreen-inner  bg-slate-800/60 border-slate-800/60 border-2 mb-2">
           {zoomEnabled && (
-                  <button type="button" onClick={handleZoomButtonClick} className="absolute z-10 top-0 right-0 m-5 rounded-full bg-gray-800/80 p-2 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <button type="button" onClick={handleZoomButtonClick} className="absolute z-10 top-0 right-0 m-5 p-2 rounded-full bg-gray-800/80 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 md:w-6 md:h-6">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                     </svg>
                   </button>
@@ -157,6 +157,7 @@ export default function Carousel(): JSX.Element | null {
               <div className="swiper-slide-content flex justify-center items-center align-center h-full">
               {conteudo.tipo === 'imagem' ? (
                   <CustomImage
+                    
                     src={conteudo.caminho}
                     alt={productData.id}
                     onError={() => {

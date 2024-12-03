@@ -16,7 +16,7 @@ type Work = {
 const Detalhesdb = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const productId = searchParams.get('productId');
+  const productId = searchParams.get('trabalho');
   const [loading, setLoading] = useState(true);
 
   const [productData, setProductData] = useState<Work | null>(null);
@@ -75,7 +75,7 @@ const Detalhesdb = () => {
   }
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return <div className='m-3'>Carregando...</div>;
   }
 
 
@@ -86,23 +86,16 @@ const Detalhesdb = () => {
         <div className='flex flex-col mb-2'>
           <h1 className='font-bold text-sm md:text-2xl'>{productData.nome}</h1>
         </div>
-        <div className='flex flex-wrap text-sm mb-2 items-center'>
-        <Image src={'/imagens/backspace.svg'} 
-        width={20}
-        height={20}
-      objectFit='contain'
-      className='mr-2'
-     alt='ID'/><h1 className='font-semibold mr-2 text-xs md:text-sm'>ID: </h1><p>{productData.id}</p>
-        </div>
-        <div className='flex flex-wrap text-xs mb-2 md:text-sm items-center'>
+        
+        <div className='flex flex-row text-xs mb-2 md:text-sm items-start'>
         {productData?.tag?.map((tag, index) => (
           <button
             key={index}
             onClick={() => handleTagClick(tag)}
-            className="inline-block bg-gray-300 flex-wrap align-center text-xs md:text-sm justify-center text-gray-800 p-2 font-semibold rounded m-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
+            className="flex bg-gray-300 flex-wrap align-center text-xs ls:text-sm justify-between text-gray-800 p-2 font-semibold rounded mr-1 transition duration-300 hover:bg-yellow-500 hover:text-violet-900"
           ><Image src={'/imagens/tag.svg'} 
-          width={20}
-          height={20}
+          width={15}
+          height={15}
         objectFit='contain'
         className='mr-2'
        alt='tag'/>

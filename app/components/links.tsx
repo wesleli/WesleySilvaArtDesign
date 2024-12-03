@@ -46,7 +46,7 @@ export const Links: React.FC<LinksProps> = ({
         const firstWorkId = data[0].id;
         setProductId(firstWorkId);
         setSelectedButton(buttonId);
-        const firstPath: any = `/${parentName}?productId=${firstWorkId}`;
+        const firstPath: any = `/${parentName}?trabalho=${firstWorkId}`;
         router.push(firstPath);
       } else {
         setSelectedButton(buttonId);
@@ -63,7 +63,7 @@ export const Links: React.FC<LinksProps> = ({
   };
 
   useEffect(() => {
-    const productIdFromParams = searchParams.get('productId');
+    const productIdFromParams = searchParams.get('trabalho');
 
     if (productIdFromParams) {
       setProductId(productIdFromParams);
@@ -96,8 +96,8 @@ export const Links: React.FC<LinksProps> = ({
   }, [searchParams, setSelectedButton]);
 
   return (
-    <nav className='flex flex-col sm:flex-row items-center justify-between text-black bg-gray-200  h-18 w-full'>
-      <ul className='inline-flex items-center justify-center m-5'>
+    <nav className='flex flex-col sm:flex-row items-center  justify-center sm:justify-between text-black bg-gray-200 w-full'>
+      <ul className='inline-flex items-center justify-center  m-3 sm:m-5'>
         <li>
           <button
             onClick={() => handleButtonClick('primeiroBotao', `/${parentName}`)}
@@ -109,7 +109,7 @@ export const Links: React.FC<LinksProps> = ({
         </li>
         <li>
           <button
-            onClick={() => handleButtonClick('segundoBotao', `/${parentName}?productId=${productId}`)}
+            onClick={() => handleButtonClick('segundoBotao', `/${parentName}?trabalho=${productId}`)}
             type='button'
             className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold p-2  ${selectedButton === 'segundoBotao' ? 'active' : ''}`}
           >
@@ -117,13 +117,9 @@ export const Links: React.FC<LinksProps> = ({
           </button>
         </li>
       </ul>
-      <ul className='w-1/4 mr-5 inline-flex items-center justify-center sm:flex-row'>
-        <li className={`sm:ml-2 flex content-center justify-items-center items-center justify-center mb-5 ${pathname === '/' ? 'active' : ''}`}>
-          <Link href="/" className='text-xs pt-5 sm:pl-3  hover:text-yellow-600'>
-            
-              https://wesleysilvaart<br/>design.vercel.app/
-            
-          </Link>
+      <ul className='inline-flex items-center justify-center sm:flex-row m-3 sm:m-8'>
+        <li className={`sm:ml-2 flex content-center justify-items-center items-center justify-center ${pathname === '/' ? 'active' : ''}`}>
+          <Link href="/" className='text-xs text-center items-center justify-center hover:text-yellow-600'>https://wesleysilvaart<br/>design.vercel.app/</Link>
         </li>
       </ul>
     </nav>

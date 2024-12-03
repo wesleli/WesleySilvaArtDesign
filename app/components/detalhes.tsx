@@ -10,10 +10,10 @@ export default function Detalhes() {
 
     const searchParams = useSearchParams();
     const productId = searchParams.get('productId') || '';
-    const shouldRenderDetails = searchParams.has('productId');
+    const shouldRenderDetails = searchParams.has('trabalho');
 
     
-      if (!searchParams.has('productId')) {
+      if (!searchParams.has('trabalho')) {
         // Não renderiza nada se não houver dados do produto
         return null;
       }
