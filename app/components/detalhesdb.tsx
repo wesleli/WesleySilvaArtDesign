@@ -9,7 +9,6 @@ type Work = {
   description: string;
   tag: string[];
   url: string;
-  imagens: string[];
 };
 
 

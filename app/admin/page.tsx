@@ -15,11 +15,7 @@ const cleanText = (text: string): string | null => {
   return cleaned.length === 0 ? null : cleaned;
 };
 
-type Conteudo = {
-  id: string;
-  tipo: string;
-  caminho: string;
-};
+
 
 type Work = {
   id: string;
@@ -28,9 +24,9 @@ type Work = {
   data: string;
   description: string;
   url: string;
-  imagens: string[];
+
   categoria: string;
-  conteudos: Conteudo[];
+
   texto: string | null;
 };
 
@@ -96,12 +92,7 @@ export default function AdminPage() {
       if (newWork.tag) {
         formData.append("tag", JSON.stringify(newWork.tag));
       }
-      if (newWork.imagens) {
-        formData.append("imagens", JSON.stringify(newWork.imagens));
-      }
-      if (newWork.conteudos) {
-        formData.append("conteudos", JSON.stringify(newWork.conteudos));
-      }
+
 
       const response = await axios.put(`/api/put_api/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" }
@@ -137,12 +128,8 @@ export default function AdminPage() {
       if (newWork.tag) {
         formData.append("tag", JSON.stringify(newWork.tag));
       }
-      if (newWork.imagens) {
-        formData.append("imagens", JSON.stringify(newWork.imagens));
-      }
-      if (newWork.conteudos) {
-        formData.append("conteudos", JSON.stringify(newWork.conteudos));
-      }
+
+
   
       const response = await axios.post('/api/post_api', formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -236,13 +223,7 @@ export default function AdminPage() {
           onChange={(e) => updateNewWorkField('url', e.target.value)}
           className="w-full p-2 border rounded"
         />
-        <input
-          type="text"
-          placeholder="Imagens (URLs separadas por vírgula)"
-          value={newWork.imagens?.join(', ') || ''}
-          onChange={(e) => updateNewWorkField('imagens', e.target.value.split(', '))}
-          className="w-full p-2 border rounded"
-        />
+
         <input
           type="text"
           placeholder="Categoria"
@@ -250,19 +231,7 @@ export default function AdminPage() {
           onChange={(e) => updateNewWorkField('categoria', e.target.value)}
           className="w-full p-2 border rounded"
         />
-        <input
-          type="text"
-          placeholder="Conteúdos (tipo e caminho separados por vírgula)"
-          value={newWork.conteudos?.map(c => `${c.tipo}:${c.caminho}`).join(', ') || ''}
-          onChange={(e) => {
-            const conteudos = e.target.value.split(', ').map((entry, index) => {
-              const [tipo, caminho] = entry.split(':');
-              return { id: index.toString(), tipo: tipo.trim(), caminho: caminho.trim() };
-            });
-            updateNewWorkField('conteudos', conteudos);
-          }}
-          className="w-full p-2 border rounded"
-        />
+        
 <ReactQuill
   value={newWork.texto || ''}
   onChange={(value) => {
