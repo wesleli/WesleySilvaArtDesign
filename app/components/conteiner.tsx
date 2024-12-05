@@ -1,12 +1,15 @@
 'use client';
 
 import Image from "next/image";
+import { useSearchParams, usePathname } from 'next/navigation';
 import Dialog from "./Dialog";
 import Carousel from "./carousel";
 import Detalhes from "./detalhes";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { app } from '@/firebase';
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
+
 
 type Data = {
   id: string;
@@ -16,7 +19,7 @@ type Data = {
   url: string;
   description: string;
   categoria: string; 
-  texto: string
+  texto: string;
 };
 
 type ConteinerProps = {
@@ -39,32 +42,34 @@ export default function Conteiner({
   const [data, setData] = useState<Data[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const productIdFromParams = searchParams.get('trabalho');
   const [selectedText, setSelectedText] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState<string | null>(null);
+  const storage = getStorage(app);
+
+  
+
 
 
   useEffect(() => {
     async function fetchData() {
+     
       setLoading(true);
+
       try {
         const response = await fetch('/api/fetch_api');
         const result = await response.json() as { works: Data[] };
-  
-        if (typeof result === 'object' && Array.isArray(result.works)) {
-          // Filtrar por categoria
+
+        if (Array.isArray(result.works)) {
           let filteredData = result.works.filter(work => work.categoria === parentId);
-  
-          // Filtrar por tag
+
           const tag = searchParams.get('tag');
           if (tag) {
             filteredData = filteredData.filter(work => work.tag.includes(tag));
           }
-          console.log(tag);
-          console.log("Dados após filtro por tag:", filteredData);
-  
-          // Ordenar por data
+
           filteredData.sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
-  
-          // Trazer o trabalho correspondente ao início, se existir
+
           if (productId) {
             const index = filteredData.findIndex(item => item.id === productId);
             if (index !== -1) {
@@ -72,35 +77,44 @@ export default function Conteiner({
               filteredData.unshift(selectedItem[0]);
             }
           }
-  
+
           setData(filteredData);
-  
-          // Verificar se há um trabalho para exibir texto
+
           if (filteredData.length > 0) {
-            const selectedWork = filteredData[0]; // Seleciona o primeiro trabalho
+            const selectedWork = filteredData[0];
             if (selectedWork.texto) {
-              setSelectedText(selectedWork.texto); // Atualiza o estado com o texto
+              setSelectedText(selectedWork.texto);
+              setSelectedName(selectedWork.nome);
             }
+          } else {
+            setSelectedText(null);
+            setSelectedName(null);
           }
         } else {
-          console.error("Os dados recebidos não contêm uma matriz:", result);
+          console.error('Invalid data format received:', result);
         }
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     }
-  
+
     fetchData();
   }, [parentId, productId, searchParams]);
+
+  const handleButtonClick = (pathname: any, dataId: any) => {
+    router.push(pathname);
+    setSelectedButton('segundoBotao');
+    setProductId(dataId);
+    setSelectedText(null);
+    setSelectedName(null);
+  };
+
   
 
-  const handleButtonClick = (pathname: any, dataId: string) => {
-    router.push(pathname);
-    setSelectedButton('segundoBotao'); 
-      setProductId(dataId);
-  };
+  
+
 
 
   return (
@@ -109,7 +123,17 @@ export default function Conteiner({
 <div className="flex-col relative items-start justify-start w-full md:w-4/6 p-2 bg-gray-200 mt-2">
   <Dialog />
   <Carousel />
+  { productIdFromParams && selectedText && (
+      <div className="p-6 bg-white border items-center justify-center mb-2 border-gray-300 rounded shadow">
+        <h2 className="text-lg text-center font-bold mb-4">{selectedName}</h2>
+        <div
+          className="prose prose-lg max-w-none text-gray-800"
+          dangerouslySetInnerHTML={{ __html: selectedText }}
+        />
+      </div>
+    )}
   <div>
+
     
   </div>
   {loading ? (
@@ -131,7 +155,7 @@ export default function Conteiner({
           >
             <div>
               <Image
-                src={`/imagens/db/${parentName}/${dataItem.url}/capa.png`}
+                src={`https://firebasestorage.googleapis.com/v0/b/${storage.app.options.storageBucket}/o/${encodeURIComponent(parentName)}%2F${encodeURIComponent(dataItem.url)}%2Fcapa.png?alt=media`}
                 placeholder="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                 alt={dataItem.nome}
                 width={500}

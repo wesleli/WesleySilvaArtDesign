@@ -1,15 +1,19 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthProvider';
 import { useRouter } from "next/navigation";
 import 'react-quill/dist/quill.snow.css';
-
 import dynamic from "next/dynamic";
 
 // Carrega o ReactQuill apenas no cliente
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+const cleanText = (text: string): string | null => {
+  const cleaned = text.replace(/<p><br><\/p>/g, '').trim();
+  return cleaned.length === 0 ? null : cleaned;
+};
 
 type Conteudo = {
   id: string;
@@ -27,7 +31,7 @@ type Work = {
   imagens: string[];
   categoria: string;
   conteudos: Conteudo[];
-  texto: string;
+  texto: string | null;
 };
 
 export default function AdminPage() {
@@ -38,9 +42,16 @@ export default function AdminPage() {
   const [newWork, setNewWork] = useState<Partial<Work>>({});
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const updateNewWorkField = (field: string, value: any) => {
+    setNewWork((prevWork) => ({
+      ...prevWork,
+      [field]: value,
+    }));
+  };
+  
 
   useEffect(() => {
-    if (isAuthenticated === false) {
+    if (!isAuthenticated) {
       router.push("/login");
     }
   }, [isAuthenticated, router]);
@@ -73,14 +84,14 @@ export default function AdminPage() {
   const handleSave = async (id: string) => {
     try {
       const formData = new FormData();
-
       formData.append("id", id);
       formData.append("nome", newWork.nome || "");
       formData.append("data", newWork.data || "");
       formData.append("description", newWork.description || "");
       formData.append("url", newWork.url || "");
       formData.append("categoria", newWork.categoria || "");
-      formData.append("texto", newWork.texto || "")
+      const cleanedText = cleanText(newWork.texto || '');
+      formData.append("texto", cleanedText || '');
 
       if (newWork.tag) {
         formData.append("tag", JSON.stringify(newWork.tag));
@@ -111,14 +122,38 @@ export default function AdminPage() {
 
   const handleAddNewWork = async () => {
     try {
-      const newId = generateNewId();
-      const newWorkWithId = { ...newWork, id: newId } as Work;
-
-      const response = await axios.post('/api/post_api', newWorkWithId);
+      const formData = new FormData();
+      formData.append("id", generateNewId());
+      formData.append("nome", newWork.nome || "");
+      formData.append("data", newWork.data || "");
+      formData.append("description", newWork.description || "");
+      formData.append("url", newWork.url || "");
+      formData.append("categoria", newWork.categoria || "");
+  
+      // Limpar o texto antes de enviar
+      const cleanedText = cleanText(newWork.texto || "");
+      formData.append("texto", cleanedText || "");
+  
+      if (newWork.tag) {
+        formData.append("tag", JSON.stringify(newWork.tag));
+      }
+      if (newWork.imagens) {
+        formData.append("imagens", JSON.stringify(newWork.imagens));
+      }
+      if (newWork.conteudos) {
+        formData.append("conteudos", JSON.stringify(newWork.conteudos));
+      }
+  
+      const response = await axios.post('/api/post_api', formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+  
       if (response.status === 200) {
+        // Resetar o formulário após o sucesso
         setNewWork({});
         setShowModal(false);
-
+  
+        // Atualizar a lista de projetos
         const fetchResponse = await axios.get('/api/fetch_api');
         setWorks(fetchResponse.data.works);
         setErrorMessage(null);
@@ -128,10 +163,7 @@ export default function AdminPage() {
       setErrorMessage("Erro ao adicionar novo projeto.");
     }
   };
-
-  const updateNewWorkField = (field: keyof Work, value: any) => {
-    setNewWork(prev => ({ ...prev, [field]: value }));
-  };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 text-gray-800">
@@ -151,9 +183,9 @@ export default function AdminPage() {
       </button>
 
       {showModal && (
-  <div className="fixed inset-0 w-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
-    <div className="bg-white p-6 rounded shadow-lg mx-5 w-full max-w-lg space-y-4 overflow-y-auto max-h-[90vh]">
-      <div className="flex justify-between items-center">
+        <div className="fixed inset-0 w-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded shadow-lg mx-5 w-full max-w-lg space-y-4 overflow-y-auto max-h-[90vh]">
+          <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold">{isEditing ? "Editar Projeto" : "Adicionar Projeto"}</h2>
         <button
           onClick={() => setShowModal(false)}
@@ -231,23 +263,26 @@ export default function AdminPage() {
           }}
           className="w-full p-2 border rounded"
         />
-        <ReactQuill
-          value={newWork.texto || ''}
-          onChange={(value) => updateNewWorkField('texto', value)}
-          theme="snow"
-          modules={{
-            toolbar: [
-              [{ header: '1' }, { header: '2' }, { font: [] }],
-              [{ list: 'ordered' }, { list: 'bullet' }],
-              ['bold', 'italic', 'underline'],
-              [{ align: [] }],
-              ['link'],
-              ['blockquote'],
-              ['image'],
-            ],
-          }}
-          className="mb-4 border-2 border-gray-300 rounded"
-        />
+<ReactQuill
+  value={newWork.texto || ''}
+  onChange={(value) => {
+    // Se o valor for vazio, definimos como null
+    updateNewWorkField('texto', value.trim() === '' ? null : value);
+  }}
+  theme="snow"
+  modules={{
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['bold', 'italic', 'underline'],
+      [{ align: [] }],
+      ['link'],
+      ['blockquote'],
+      ['image'],
+    ],
+  }}
+  className="mb-4 border-2 border-gray-300 rounded"
+/>
         <button
           type="submit"
           className="bg-green-500 text-white px-4 py-2 rounded w-full hover:bg-green-600 transition"
@@ -255,41 +290,40 @@ export default function AdminPage() {
           {isEditing ? "Salvar Alterações" : "Adicionar Projeto"}
         </button>
       </form>
-    </div>
-  </div>
-)}
+          </div>
+        </div>
+      )}
 
-      <div className="overflow-auto">
-        <table className="min-w-full bg-white shadow rounded border">
-          <thead>
-            <tr className="bg-gray-100 text-gray-600 text-sm">
-              <th className="py-2 px-4">ID</th>
-              <th className="py-2 px-4">Nome</th>
-              <th className="py-2 px-4">Tags</th>
-              <th className="py-2 px-4">Ações</th>
+      <table className="min-w-full bg-white shadow rounded border">
+        <thead>
+          <tr className="bg-gray-100 text-gray-600 text-sm">
+            <th className="py-2 px-4">ID</th>
+            <th className="py-2 px-4">Nome</th>
+            <th className="py-2 px-4">Tags</th>
+            <th className="py-2 px-4">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {works.map((work) => (
+            <tr key={work.id} className="text-gray-700 text-sm">
+              <td className="py-2 px-4">{work.id}</td>
+              <td className="py-2 px-4">{work.nome}</td>
+              <td className="py-2 px-4">{work.tag.join(', ')}</td>
+              <td className="py-2 px-4">
+                <button
+                  onClick={() => handleEdit(work.id)}
+                  className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition"
+                >
+                  Editar
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {works.map((work) => (
-              <tr key={work.id} className="text-gray-700 text-sm">
-                <td className="py-2 px-4">{work.id}</td>
-                <td className="py-2 px-4">{work.nome}</td>
-                <td className="py-2 px-4">{work.tag.join(', ')}</td>
-                <td className="py-2 px-4">
-                  <button
-                    onClick={() => handleEdit(work.id)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition"
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
+
 
 

@@ -444,6 +444,10 @@ padding: 10px;
 
 }
 
+.swiper-slide, .swiper-container {
+  box-sizing: border-box !important;
+}
+
 .hour {
   position: absolute;
   font-family: 'Archivo Black', sans-serif;

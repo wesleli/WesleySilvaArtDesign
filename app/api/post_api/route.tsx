@@ -14,15 +14,16 @@ type Conteudo = {
 };
 
 type Work = {
-  id: string;
-  tag: string[];
-  nome: string;
-  data: string;
-  description: string;
-  url: string;
-  imagens: string[];
-  categoria: string;
-  conteudos: Conteudo[];
+  id: string | null;
+  tag: string[] | null;
+  nome: string | null;
+  data: string | null;
+  description: string | null;
+  url: string | null;
+  imagens: string[] | null;
+  categoria: string | null;
+  conteudos: Conteudo[] | null;
+  texto: string | null;
 };
 
 // Função para garantir que o diretório existe
@@ -40,52 +41,70 @@ async function ensureDirectoryExists(filePath: string) {
 // Método POST: para criar um novo projeto
 export async function POST(req: NextRequest) {
   try {
+    const contentType = req.headers.get("content-type") || "";
+
+    if (!contentType.includes("multipart/form-data")) {
+      return NextResponse.json({ error: "Tipo de conteúdo inválido." }, { status: 400 });
+    }
+
     const formData = await req.formData();
 
+    // Montar os dados recebidos do FormData, atribuindo `null` se não forem enviados
     const data: Work = {
-      id: formData.get("id") as string,
-      tag: (formData.get("tag") as string)?.split(",").map((tag) => tag.trim()) || [],
-      nome: formData.get("nome") as string,
-      data: formData.get("data") as string,
-      description: formData.get("description") as string,
-      url: formData.get("url") as string,
-      imagens: (formData.get("imagens") as string)?.split(",").map((img) => img.trim()) || [],
-      categoria: formData.get("categoria") as string,
-      conteudos: JSON.parse(formData.get("conteudos") as string) as Conteudo[],
+      id: (formData.get("id") as string) || null,
+      tag: (formData.get("tag") as string)?.split(",").map((tag) => tag.trim()) || null,
+      nome: (formData.get("nome") as string) || null,
+      data: (formData.get("data") as string) || null,
+      description: (formData.get("description") as string) || null,
+      url: (formData.get("url") as string) || null,
+      imagens: (formData.get("imagens") as string)?.split(",").map((img) => img.trim()) || null,
+      categoria: (formData.get("categoria") as string) || null,
+      conteudos: formData.get("conteudos")
+        ? JSON.parse(formData.get("conteudos") as string)
+        : null,
+      texto: (formData.get("texto") as string) || null,
     };
 
-    const diretorio = `public/imagens/db/${data.categoria}/${data.nome}`;
-    await ensureDirectoryExists(diretorio);
+    const diretorio = data.categoria && data.nome
+      ? `public/imagens/db/${data.categoria}/${data.nome}`
+      : null;
+
+    if (diretorio) {
+      await ensureDirectoryExists(diretorio);
+    }
 
     // Salvar arquivos no diretório especificado
-    for (let i = 0; i < data.conteudos.length; i++) {
-      const conteudo = data.conteudos[i];
-      const conteudoId = `${data.id}_${i + 1}`;
-      const caminho = `${conteudoId}_${conteudo.caminho}`;
-      data.conteudos[i] = { id: conteudoId, tipo: conteudo.tipo, caminho };
+    if (data.conteudos) {
+      for (let i = 0; i < data.conteudos.length; i++) {
+        const conteudo = data.conteudos[i];
+        const conteudoId = `${data.id}_${i + 1}`;
+        const caminho = `${conteudoId}_${conteudo.caminho}`;
+        data.conteudos[i] = { id: conteudoId, tipo: conteudo.tipo, caminho };
 
-      const arquivoBlob = formData.get(conteudo.caminho) as Blob;
-      if (arquivoBlob) {
-        const arrayBuffer = await arquivoBlob.arrayBuffer();
-        const uint8Array = new Uint8Array(arrayBuffer);
-        const filePath = path.join(diretorio, caminho);
-        await writeFile(filePath, uint8Array);
+        const arquivoBlob = formData.get(conteudo.caminho) as Blob;
+        if (arquivoBlob) {
+          const arrayBuffer = await arquivoBlob.arrayBuffer();
+          const uint8Array = new Uint8Array(arrayBuffer);
+          const filePath = path.join(diretorio!, caminho);
+          await writeFile(filePath, uint8Array);
+        }
       }
     }
 
     // Inserir novo projeto no banco
     await sql`
-      INSERT INTO works (id, tag, nome, data, description, url, imagens, categoria, conteudos)
+      INSERT INTO works (id, tag, nome, data, description, url, imagens, categoria, conteudos, texto)
       VALUES (
           ${data.id},
-          ${JSON.stringify(data.tag)},
+          ${data.tag ? JSON.stringify(data.tag) : null},
           ${data.nome},
           ${data.data},
           ${data.description},
           ${data.url},
-          ${JSON.stringify(data.imagens)},
+          ${data.imagens ? JSON.stringify(data.imagens) : null},
           ${data.categoria},
-          ${JSON.stringify(data.conteudos)}
+          ${data.conteudos ? JSON.stringify(data.conteudos) : null},
+          ${data.texto}
       );
     `;
 

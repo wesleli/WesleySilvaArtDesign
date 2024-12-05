@@ -76,13 +76,14 @@ export const Links: React.FC<LinksProps> = ({
 
   useEffect(() => {
     const handleSearchParamsChange = () => {
-      const productIdFromParams = searchParams.get('productId');
+      const productIdFromParams = searchParams.get('trabalho');
 
       if (productIdFromParams) {
         setSelectedButton(productIdFromParams === 'null' ? 'primeiroBotao' : 'segundoBotao');
       } else {
         // Se não houver productId nos parâmetros, definir o primeiro botão como selecionado
         setSelectedButton('primeiroBotao');
+        
       }
     };
 

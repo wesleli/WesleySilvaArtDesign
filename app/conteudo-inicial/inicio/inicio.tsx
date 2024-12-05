@@ -34,7 +34,7 @@ export default function Inicio() {
     }, []);
 
     return (
-        <section className="w-full h-screen flex flex-col justify-between p-4 md:p-8">
+        <section className="w-full h-full justify-between p-4 md:p-8">
             <div className="flex flex-col md:flex-row justify-center md:justify-between mt-5 h-[10vh] mx-5 md:mx-10 mb-20">
                 {/* Topo com redes sociais */}
                 <div className="flex space-x-3 md:space-x-10 justify-center items-end">
@@ -119,7 +119,7 @@ export default function Inicio() {
 
         
             {/* Contêiner central com retângulo preto e texto alinhado na parte inferior */}
-            <div className="flex justify-center items-center h-[60vh] mb-10 mx-4 md:mx-20">
+            <div className="flex justify-center items-center h-[50vh] mb-10 mx-4 md:mx-20">
                 <div className="flex w-full h-full">
                     {/* Retângulo preto com "arte" alinhado na parte inferior */}
                     <div className="w-1/2 h-full bg-black flex justify-end items-end pb-6 pr-8">
@@ -143,11 +143,19 @@ export default function Inicio() {
             </div>
 
             {/* Nome e relógio no rodapé */}
-            <div className="flex justify-end items-center py-4 md:px-10 px-5">
+            <div className=" flex justify-end items-center py-4 md:px-10 px-5">
 
                 <button onClick={() => router.push('/theclock')}>
                     <Image src="https://img.icons8.com/?size=100&id=59760&format=png&color=CC0000" width={30} height={30} alt="Clock Icon" />
                 </button>
+            </div>
+            <div className="w-full h-full justify-center items-center content-center" >
+            <div className="w-4/5 h-full text-center justify-self-center align-middle content-center items-center justify-center text-red-600 font-mono text-2xl">
+            <p className="leading-relaxed">
+            Artista, arte educador e designer, natural de Volta Redonda (RJ) e atualmente em Curitiba (PR). Minha prática é voltada para uma reflexão crítica sobre identidade, raça, estética e dinâmicas urbanas. Como educador, vejo a arte como uma ferramenta emancipatória, essencial para o desenvolvimento de um pensamento crítico sobre o mundo.
+</p>
+
+</div>
             </div>
         </section>
     );

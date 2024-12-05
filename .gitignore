@@ -43,5 +43,4 @@ next-env.d.ts
 #pastas
 /app/adm
 /app/api/getArquivo
-/app/teste
 /firebase.js
