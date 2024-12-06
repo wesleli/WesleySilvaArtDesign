@@ -41,6 +41,3 @@ next-env.d.ts
 .vercel
 
 #pastas
-/app/adm
-/app/api/getArquivo
-/firebase.js

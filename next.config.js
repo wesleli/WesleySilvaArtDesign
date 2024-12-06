@@ -21,6 +21,8 @@ const nextConfig = {
             }
         ] // Adicione o domínio aqui
     },
-}
+    }
+
+  
 
 module.exports = nextConfig
