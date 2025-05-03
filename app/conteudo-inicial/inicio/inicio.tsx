@@ -150,10 +150,9 @@ export default function Inicio() {
                 </button>
             </div>
             <div className="w-full h-full justify-center items-center content-center" >
-            <div className="w-4/5 h-full text-center justify-self-center align-middle content-center items-center justify-center text-red-600 font-mono text-2xl">
-            <p className="leading-relaxed">
-            Artista, arte educador e designer, natural de Volta Redonda (RJ) e atualmente em Curitiba (PR). Minha prática é voltada para uma reflexão crítica sobre o corpo, a linguagem e a estética. Como educador, vejo a arte como um pilar essencial para uma educação emancipatória.
-</p>
+            <div className=" text-red-600 max-w-3xl mx-auto">
+            <p className="animate-fade-in duration-700 opacity-100 animate-on-scroll text-lg md:text-xl leading-relaxed tracking-wide">
+            Sou artista visual multilinguagem e transdisciplinar, natural de Volta Redonda (RJ) e atualmente em Curitiba (PR). Atuo também como designer gráfico, desenvolvedor front-end e educador em arte. Estou em formação em Artes Visuais pela Universidade Federal do Paraná (UFPR) e trabalho como educador no Museu Paranaense, onde desenvolvo ações de mediação cultural e projetos educativos voltados a diferentes públicos. Minha prática artística envolve uma pesquisa visual e conceitual que abrange estética, abstração e pensamento crítico. Por meio de experimentações com diversas linguagens — como design, desenho, pintura e performance — busco construir narrativas sensíveis que dialoguem com questões contemporâneas, atravessando campos como a filosofia, a estética e a psicanálise. Meu trabalho visa tensionar os limites entre arte, linguagem, memória e subjetividade, propondo experiências visuais que convoquem reflexão e afeto.</p>
 
 </div>
             </div>

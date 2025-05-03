@@ -122,7 +122,6 @@ export default function Conteiner({
 
 <div className="flex-col relative items-start justify-start w-full md:w-4/6 p-2 bg-gray-200 mt-2">
   <Dialog />
-  <Carousel />
   { productIdFromParams && selectedText && (
       <div className="p-6 bg-white border items-center justify-center mb-2 border-gray-300 rounded shadow">
         <h2 className="text-lg text-center font-bold mb-4">{selectedName}</h2>
@@ -132,6 +131,8 @@ export default function Conteiner({
         />
       </div>
     )}
+  <Carousel />
+ 
   <div>
 
     

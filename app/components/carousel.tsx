@@ -133,13 +133,13 @@ export default function Carousel(): JSX.Element | null {
     <div className="swiper-container text-white justify-self-center self-center items-center justify-items-center widescreen-container">
       <div
         style={{ boxSizing: 'border-box' }}
-        className="swiper-wrapper justify-self-center self-center items-center justify-items-center widescreen-inner bg-slate-800/60 border-slate-800/60 border-2 mb-2"
+        className="swiper-wrapper justify-self-center self-center items-center justify-items-center widescreen-inner bg-slate-800 border-slate-800/60 border-2 mb-2"
       >
         {zoomEnabled && (
           <button
             type="button"
             onClick={handleZoomButtonClick}
-            className="absolute z-10 top-0 right-0 m-5 p-2 rounded-full bg-gray-800/80 flex items-center justify-center"
+            className="absolute z-10 top-0 right-0 m-5 p-2 rounded-full bg-gray-800 flex items-center justify-center"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +159,7 @@ export default function Carousel(): JSX.Element | null {
         )}
         {swiperInitialized && (
           <Swiper
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', background:'gray', color: 'red' }}
             effect="creative"
             creativeEffect={{
               prev: {
@@ -173,7 +173,7 @@ export default function Carousel(): JSX.Element | null {
             loop={mediaUrls.length > 1}
             navigation={true}
             keyboard={{ enabled: true }}
-            pagination={{ clickable: true }}
+            pagination={{ clickable: true, type: 'fraction'  }}
             modules={[Keyboard, Pagination, Navigation, EffectCreative]}
           >
             {mediaUrls.map(({ url, isVideo }, index) => (
